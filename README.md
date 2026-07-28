@@ -2,7 +2,7 @@
 
 A complete end-to-end data engineering project built on **Microsoft Fabric**, implementing Medallion Architecture (Bronze → Silver → Gold) with automated orchestration and Power BI reporting.
 
-`Microsoft Fabric` · `Data Pipelines` · `Dataflow Gen2` · `Direct Lake` · `Star Schema` · `DAX`
+`Microsoft Fabric` · `Data Pipelines` · `Dataflow Gen2` · `Data Modeling` · `Star Schema` · `Power BI`
 
 ---
 
@@ -13,7 +13,7 @@ Hotel management needs daily visibility into revenue, occupancy, cancellations, 
 ## 🏗️ Architecture
 
 ```
-GitHub (CSV Source) → Copy Data (upsert) → Bronze Lakehouse
+ADLS Gen2 (CSV Source + JSON Config) → Lookup (JSON config) → ForEach (per CSV) → Copy Data (upsert) → Bronze Lakehouse
    → Dataflow Gen2 → Silver Lakehouse (OBT)
    → Dataflow Gen2 → Gold Lakehouse (Star Schema)
    → Semantic Model (Direct Lake) → Power BI Report
@@ -21,25 +21,54 @@ GitHub (CSV Source) → Copy Data (upsert) → Bronze Lakehouse
 
 | Layer | What happens |
 |---|---|
-| **Bronze** | 5 CSVs (`bookings`, `guests`, `hotels`, `rooms`, `reviews`) ingested via Copy Data activity, upsert strategy, 1:1 with source |
+| **Bronze** | 5 CSVs (`bookings`, `guests`, `hotels`, `rooms`, `reviews`) ingested from **ADLS Gen2** via a metadata-driven pipeline, upsert strategy, 1:1 with source |
 | **Silver** | All 5 tables joined into one denormalized `Silver_OBT` (grain: 1 row = 1 booking); renamed columns, corrected types, calculated `nights_stayed` & `total_price` |
 | **Gold** | Star schema: `fact_bookings`, `dim_guests`, `dim_hotels` (hotel+room combined), `dim_flags` (junk: status + is_reviewed), `dim_date` |
 
 **Lineage:** each record carries `silver_processed_date` and `gold_processed_at` timestamps for traceability.
 
-<img width="800" height="400" alt="semantic model" src="https://github.com/user-attachments/assets/5a17b51b-619b-4839-9621-65493fab1f5b" />
-
 ## ⚙️ Orchestration
 
-Automated **Data Pipeline**, daily at 13:10 UTC+1: `Copy Data → Dataflow Silver → Dataflow Gold`, with on-success chaining and automatic Direct Lake refresh — no manual steps.
+<img width="1035" height="260" alt="image" src="https://github.com/user-attachments/assets/12ab793e-4865-4743-ad1a-ab83aac396a2" />
+
+A single **metadata-driven Data Pipeline** handles ingestion instead of one hardcoded Copy Data activity per file:
+
+1. **Lookup (`lookup_json_config`)** — reads a JSON config file from **ADLS Gen2**, listing each source file (→ target table name) and its key column
+2. **ForEach (`for_each_csv`)** — iterates over that config and dynamically invokes a **Copy Data** activity per entry — adding a new source file means editing the config, not the pipeline
+3. **Copy Data (upsert)** — writes each table into the **Bronze Lakehouse**, merging records on the key column defined in the config (insert new, update existing)
+4. **Dataflow `bronze_to_silver`** — runs once all Bronze copies succeed, builds the Silver OBT
+5. **Dataflow `silver_to_gold`** — runs after Silver completes, builds the Gold star schema
+
+The whole chain runs **daily at 13:10 UTC+1** with on-success dependencies between every step, and the Direct Lake Semantic Model refreshes automatically once Gold is updated — no manual intervention required end to end.
 
 ## 📊 Power BI Report
+
+### Semantic Model
+
+<img width="800" height="400" alt="semantic model" src="https://github.com/user-attachments/assets/5a17b51b-619b-4839-9621-65493fab1f5b" />
+
+Direct Lake semantic model built on top of the Gold star schema — no import/refresh needed, reads directly from OneLake.
+
+### Report Preview
+
+<details>
+<summary><b>📸 Click to view report screenshots</b></summary>
+
+**Page 1 — Bookings Analysis**
+
+<img width="1224" height="681" alt="image" src="https://github.com/user-attachments/assets/dbbc4e41-7936-4cf2-b251-6d20d79fcf7b" />
+
+**Page 2 — Guests & Hotel Performance**
+
+<img width="1234" height="680" alt="image" src="https://github.com/user-attachments/assets/b3fb86ce-5030-4bb4-8aed-436becf7cf50" />
+
+</details>
 
 - **Page 1 — Bookings Analysis:** KPI cards (Revenue, Bookings, Avg Nights, Cancellation Rate), review rating gauge, revenue by hotel, revenue trend, field-parameter KPI slicer
 - **Page 2 — Guests & Hotel Performance:** bookings by guest, avg rating by hotel, rating-vs-bookings correlation scatter plot
 
 <details>
-<summary><b>📐 DAX measures, repo structure & how to run (click to expand)</b></summary>
+<summary><b>📐 DAX measures (click to expand)</b></summary>
 
 ```dax
 Total Revenue = SUM(FactBookings[total_price])
@@ -52,26 +81,6 @@ DIVIDE(
     CALCULATE(COUNTROWS(fact_bookings), KEEPFILTERS(dim_flags[booking_status] = "cancelled")),
     COUNTROWS(fact_bookings), 0
 )
-```
-
-**Repository structure**
-```
-hotel-fabric-project/
-  README.md
-  /screenshots
-  /dataflows      (bronze_to_silver.pq, silver_to_gold.pq)
-  /datasets       (bookings, guests, hotels, rooms, reviews)
-```
-
-**How to run**
-1. Upload CSVs to a GitHub repository
-2. Create a Fabric workspace (Trial or Premium capacity)
-3. Create Bronze, Silver, Gold Lakehouses
-4. Configure Copy Data activity → your GitHub CSV source
-5. Import Dataflow Gen2 queries from `/dataflows`
-6. Create a Direct Lake Semantic Model from the Gold Lakehouse
-7. Build the Power BI Report
-8. Schedule the Data Pipeline trigger
 
 </details>
 
