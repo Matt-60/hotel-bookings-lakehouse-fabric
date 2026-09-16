@@ -5,7 +5,7 @@
         "type": "ForEach",
         "typeProperties": {
           "items": {
-            "value": "@pipeline().parameters.files",
+            "value": "@activity('lookup_json_config').output.value[0].configs",
             "type": "Expression"
           },
           "activities": [
@@ -18,16 +18,19 @@
                     "type": "DelimitedTextReadSettings"
                   },
                   "storeSettings": {
-                    "type": "HttpReadSettings",
-                    "requestMethod": "GET"
+                    "type": "AzureBlobFSReadSettings",
+                    "recursive": true,
+                    "enablePartitionDiscovery": false
                   },
                   "datasetSettings": {
                     "type": "DelimitedText",
                     "typeProperties": {
                       "location": {
-                        "type": "HttpServerLocation",
-                        "relativeUrl": {
-                          "value": "/Matt-60/Hotel-Bookings_End-to-End_Project_Fabric/refs/heads/main/datasets/@{item().file}.csv",
+                        "type": "AzureBlobFSLocation",
+                        "fileSystem": "data",
+                        "folderPath": "files",
+                        "fileName": {
+                          "value": "@concat(item().file,'.csv')",
                           "type": "Expression"
                         }
                       },
@@ -38,7 +41,7 @@
                     },
                     "schema": [],
                     "externalReferences": {
-                      "connection": "286d0908-7998-4ccd-866d-4ea693c1fe47"
+                      "connection": "f0f8fa26-6c53-46b4-8117-7fb9d6a061db"
                     },
                     "annotations": []
                   }
@@ -56,9 +59,9 @@
                   "datasetSettings": {
                     "type": "LakehouseTable",
                     "typeProperties": {
-                      "schema": "raw",
+                      "schema": "bronze",
                       "table": {
-                        "value": "@item().file",
+                        "value": "@concat('bronze_', item().file)",
                         "type": "Expression"
                       }
                     },
@@ -95,13 +98,20 @@
                 "secureInput": false,
                 "secureOutput": false
               },
-              "name": "Copy data",
+              "name": "copy_data",
               "dependsOn": []
             }
           ]
         },
-        "name": "ForEach",
-        "dependsOn": []
+        "name": "for_each_csv",
+        "dependsOn": [
+          {
+            "activity": "lookup_json_config",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
       },
       {
         "type": "RefreshDataflow",
@@ -119,10 +129,10 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Dataflow1",
+        "name": "bronze_to_silver",
         "dependsOn": [
           {
-            "activity": "ForEach",
+            "activity": "for_each_csv",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -145,53 +155,58 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Dataflow2",
+        "name": "silver_to_gold",
         "dependsOn": [
           {
-            "activity": "Dataflow1",
+            "activity": "bronze_to_silver",
             "dependencyConditions": [
               "Succeeded"
             ]
           }
         ]
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "JsonSource",
+            "formatSettings": {
+              "type": "JsonReadSettings"
+            },
+            "storeSettings": {
+              "type": "AzureBlobFSReadSettings",
+              "recursive": true,
+              "enablePartitionDiscovery": false
+            }
+          },
+          "datasetSettings": {
+            "type": "Json",
+            "typeProperties": {
+              "location": {
+                "type": "AzureBlobFSLocation",
+                "fileSystem": "data",
+                "folderPath": "config",
+                "fileName": "config.json"
+              }
+            },
+            "schema": {},
+            "externalReferences": {
+              "connection": "f0f8fa26-6c53-46b4-8117-7fb9d6a061db"
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "lookup_json_config",
+        "dependsOn": []
       }
-    ],
-    "parameters": {
-      "files": {
-        "type": "array",
-        "defaultValue": [
-          {
-            "file": "bookings",
-            "key": [
-              "booking_id"
-            ]
-          },
-          {
-            "file": "rooms",
-            "key": [
-              "room_id"
-            ]
-          },
-          {
-            "file": "hotels",
-            "key": [
-              "hotel_id"
-            ]
-          },
-          {
-            "file": "guests",
-            "key": [
-              "guest_id"
-            ]
-          },
-          {
-            "file": "reviews",
-            "key": [
-              "review_id"
-            ]
-          }
-        ]
-      }
-    }
+    ]
   }
 }

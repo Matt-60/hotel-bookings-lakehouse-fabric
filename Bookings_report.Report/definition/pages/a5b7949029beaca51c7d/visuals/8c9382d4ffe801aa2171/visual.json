@@ -23,12 +23,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "Total Revenue"
+                  "Property": "total_revenue"
                 }
               },
-              "queryRef": "fact_bookings.Total Revenue",
-              "nativeQueryRef": "Total Revenue",
-              "format": "\\$#,0.0;(\\$#,0.0);\\$#,0.0"
+              "queryRef": "fact_bookings.total_revenue",
+              "nativeQueryRef": "total_revenue",
+              "format": "0.0"
             },
             {
               "field": {
@@ -38,12 +38,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "Avg Revenue"
+                  "Property": "avg_revenue"
                 }
               },
-              "queryRef": "fact_bookings.Avg Revenue",
-              "nativeQueryRef": "Avg Revenue",
-              "format": "\\$#,0.0;(\\$#,0.0);\\$#,0.0"
+              "queryRef": "fact_bookings.avg_revenue",
+              "nativeQueryRef": "avg_revenue",
+              "format": "0.0"
             },
             {
               "field": {
@@ -53,11 +53,11 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "Total Bookings"
+                  "Property": "total_bookings"
                 }
               },
-              "queryRef": "fact_bookings.Total Bookings",
-              "nativeQueryRef": "Total Bookings"
+              "queryRef": "fact_bookings.total_bookings",
+              "nativeQueryRef": "total_bookings"
             },
             {
               "field": {
@@ -67,12 +67,11 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "Avg Nights"
+                  "Property": "avg_nights"
                 }
               },
-              "queryRef": "fact_bookings.Avg Nights",
-              "nativeQueryRef": "Avg Nights",
-              "format": "0"
+              "queryRef": "fact_bookings.avg_nights",
+              "nativeQueryRef": "avg_nights"
             },
             {
               "field": {
@@ -82,12 +81,11 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "Cancellation Rate"
+                  "Property": "cancellation_rate"
                 }
               },
-              "queryRef": "fact_bookings.Cancellation Rate",
-              "nativeQueryRef": "Cancellation Rate",
-              "format": "0 %;-0 %;0 %"
+              "queryRef": "fact_bookings.cancellation_rate",
+              "nativeQueryRef": "cancellation_rate"
             }
           ]
         }
@@ -102,7 +100,7 @@
                     "Entity": "fact_bookings"
                   }
                 },
-                "Property": "Total Revenue"
+                "Property": "total_revenue"
               }
             },
             "direction": "Descending"

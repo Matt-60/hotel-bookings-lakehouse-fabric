@@ -4,5 +4,27 @@
   "displayName": "Guests & hotel performance analysis",
   "displayOption": "FitToPage",
   "height": 720,
-  "width": 1280
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "c92442746243e94a2b09",
+      "target": "ce1bfc39503171dabeaf",
+      "type": "DataFilter"
+    },
+    {
+      "source": "c92442746243e94a2b09",
+      "target": "dfa0e70c81cbce7a621a",
+      "type": "DataFilter"
+    },
+    {
+      "source": "dfa0e70c81cbce7a621a",
+      "target": "ce1bfc39503171dabeaf",
+      "type": "DataFilter"
+    },
+    {
+      "source": "ce1bfc39503171dabeaf",
+      "target": "dfa0e70c81cbce7a621a",
+      "type": "DataFilter"
+    }
+  ]
 }

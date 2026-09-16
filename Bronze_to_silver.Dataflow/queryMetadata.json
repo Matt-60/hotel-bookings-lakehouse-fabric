@@ -7,34 +7,64 @@
   "queryGroups": [],
   "documentLocale": "en-US",
   "queriesMetadata": {
-    "raw bookings": {
+    "silver_bookings": {
       "queryId": "c91ac284-e8bd-4b5c-9c17-04a34c3b3520",
-      "queryName": "raw bookings"
-    },
-    "raw guests": {
-      "queryId": "0c641ac0-e8ad-4ee2-85af-317b99121723",
-      "queryName": "raw guests"
-    },
-    "raw hotels": {
-      "queryId": "a391dd95-93cc-4544-997f-e62cf4c2595a",
-      "queryName": "raw hotels"
-    },
-    "raw reviews": {
-      "queryId": "9f2ef7f4-b14d-4a46-ac99-e461105f2419",
-      "queryName": "raw reviews"
-    },
-    "raw rooms": {
-      "queryId": "b3f325cc-b6bc-49e9-80db-3e7bdcf53520",
-      "queryName": "raw rooms"
-    },
-    "Merge": {
-      "queryId": "e66c742b-1fba-45eb-866e-6990a2291a49",
-      "queryName": "Merge",
+      "queryName": "silver_bookings",
       "loadEnabled": false
     },
-    "Merge_DataDestination": {
-      "queryId": "b31572da-152c-4cec-a0e6-42ae197f3326",
-      "queryName": "Merge_DataDestination",
+    "silver_guests": {
+      "queryId": "0c641ac0-e8ad-4ee2-85af-317b99121723",
+      "queryName": "silver_guests",
+      "loadEnabled": false
+    },
+    "silver_hotels": {
+      "queryId": "a391dd95-93cc-4544-997f-e62cf4c2595a",
+      "queryName": "silver_hotels",
+      "loadEnabled": false
+    },
+    "silver_reviews": {
+      "queryId": "9f2ef7f4-b14d-4a46-ac99-e461105f2419",
+      "queryName": "silver_reviews",
+      "loadEnabled": false
+    },
+    "silver_rooms": {
+      "queryId": "b3f325cc-b6bc-49e9-80db-3e7bdcf53520",
+      "queryName": "silver_rooms",
+      "loadEnabled": false
+    },
+    "silver_obt": {
+      "queryId": "e66c742b-1fba-45eb-866e-6990a2291a49",
+      "queryName": "silver_obt",
+      "loadEnabled": false
+    },
+    "bronze_bookings": {
+      "queryId": "ca5e3b46-4608-42e9-b2a3-5ea9bbb1637b",
+      "queryName": "bronze_bookings",
+      "loadEnabled": false
+    },
+    "bronze_guests": {
+      "queryId": "5cb4cfac-dce8-4908-9e72-280141fecf10",
+      "queryName": "bronze_guests",
+      "loadEnabled": false
+    },
+    "bronze_hotels": {
+      "queryId": "678ec11b-6a23-4a8a-beee-98739ed1b917",
+      "queryName": "bronze_hotels",
+      "loadEnabled": false
+    },
+    "bronze_reviews": {
+      "queryId": "8a295fe4-af14-43e3-8227-2f7e60c9eb83",
+      "queryName": "bronze_reviews",
+      "loadEnabled": false
+    },
+    "bronze_rooms": {
+      "queryId": "0b3a4c23-237f-4e2e-beef-0866b47bcae2",
+      "queryName": "bronze_rooms",
+      "loadEnabled": false
+    },
+    "silver_obt_DataDestination": {
+      "queryId": "8e22ac78-aeeb-4842-9a6d-e5948d80b3d5",
+      "queryName": "silver_obt_DataDestination",
       "isHidden": true,
       "loadEnabled": false
     }

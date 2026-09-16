@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
-    "type": "DataPipeline",
-    "displayName": "Data_ingestion"
+    "type": "CopyJob",
+    "displayName": "CopyJob_1"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "3e6bb402-c697-9430-4e54-f9545cf0cc2e"
+    "logicalId": "d276dc3b-60b4-9fea-43e3-65db6d81f1be"
   }
 }

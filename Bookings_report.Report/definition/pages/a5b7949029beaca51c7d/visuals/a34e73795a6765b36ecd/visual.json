@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "a34e73795a6765b36ecd",
   "position": {
-    "x": 9.5380585067675732,
+    "x": 17.883859700189202,
     "y": 653.35700771357881,
     "z": 4000,
     "height": 58.420608353951387,
@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''fact_bookings''[Total Revenue]'"
+                                "Value": "'''fact_bookings''[total_revenue]'"
                               }
                             }
                           ]
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''fact_bookings''[Total Revenue]'"
+                                      "Value": "'''fact_bookings''[total_revenue]'"
                                     }
                                   }
                                 ]
@@ -140,7 +140,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "Total Revenue"
+                            "0": "total_revenue"
                           }
                         ]
                       }

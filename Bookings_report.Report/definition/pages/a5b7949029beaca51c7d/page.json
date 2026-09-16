@@ -4,5 +4,17 @@
   "displayName": "Summary",
   "displayOption": "FitToPage",
   "height": 720,
-  "width": 1280
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "214b68c0278e871647a2",
+      "target": "ef3fa237f0c3ba594b5e",
+      "type": "DataFilter"
+    },
+    {
+      "source": "214b68c0278e871647a2",
+      "target": "6dfef8485c1756c80449",
+      "type": "DataFilter"
+    }
+  ]
 }

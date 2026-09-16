@@ -10,6 +10,8 @@ table dim_guests
 		summarizeBy: none
 		sourceColumn: guest_id
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column guest_name
@@ -23,19 +25,25 @@ table dim_guests
 
 	column guest_email
 		dataType: string
+		isHidden
 		lineageTag: 49431637-d651-4c4e-9571-201d63f28a97
 		sourceLineageTag: guest_email
 		summarizeBy: none
 		sourceColumn: guest_email
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column guest_phone
 		dataType: string
+		isHidden
 		lineageTag: 1c98df41-0870-4c11-8bec-23859fb3aecf
 		sourceLineageTag: guest_phone
 		summarizeBy: none
 		sourceColumn: guest_phone
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

@@ -42,12 +42,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "Total Revenue"
+                  "Property": "total_revenue"
                 }
               },
-              "queryRef": "fact_bookings.Total Revenue",
-              "nativeQueryRef": "Total Revenue",
-              "displayName": "Total Revenue"
+              "queryRef": "fact_bookings.total_revenue",
+              "nativeQueryRef": "total_revenue",
+              "displayName": "total_revenue"
             }
           ],
           "fieldParameters": [
@@ -111,6 +111,40 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "roundRange": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Scalar'"
+                }
+              }
+            },
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "2.4D"
+                }
+              }
+            },
+            "end": {
+              "expr": {
+                "Literal": {
+                  "Value": "5.1D"
                 }
               }
             }

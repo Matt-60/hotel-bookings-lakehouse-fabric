@@ -1,8 +1,8 @@
 table KPIs
-	lineageTag: 3be34b0c-1a7c-4abb-a8e7-004ff62e73f7
+	lineageTag: 2d15eb62-546f-435b-bbe8-3c42b559b97c
 
 	column KPIs
-		lineageTag: 9a4b6d55-bcbf-4a43-93eb-0d56f83fd1da
+		lineageTag: bd2643d3-5bfd-44f3-b19a-e906f7bc9fd6
 		summarizeBy: none
 		sourceColumn: [Value1]
 		sortByColumn: 'KPIs Order'
@@ -14,7 +14,7 @@ table KPIs
 
 	column 'KPIs Fields'
 		isHidden
-		lineageTag: 6d65ecf4-82f4-426c-b9f0-bd3b4e9c4091
+		lineageTag: 87759159-6023-4947-951b-e959b0319496
 		summarizeBy: none
 		sourceColumn: [Value2]
 		sortByColumn: 'KPIs Order'
@@ -30,7 +30,7 @@ table KPIs
 	column 'KPIs Order'
 		isHidden
 		formatString: 0
-		lineageTag: 40bb94a1-7a92-49eb-b276-c9a97383611f
+		lineageTag: 9d0ae239-c77c-4360-ad6a-0719b1a01d74
 		summarizeBy: sum
 		sourceColumn: [Value3]
 
@@ -40,12 +40,13 @@ table KPIs
 		mode: import
 		source =
 				{
-				    ("Total Revenue", NAMEOF('fact_bookings'[Total Revenue]), 0),
-				    ("Avg Revenue", NAMEOF('fact_bookings'[Avg Revenue]), 1),
-				    ("Total Bookings", NAMEOF('fact_bookings'[Total Bookings]), 2),
-				    ("Avg Nights", NAMEOF('fact_bookings'[Avg Nights]), 3),
-				    ("Cancellation Rate", NAMEOF('fact_bookings'[Cancellation Rate]), 4)
+				    ("avg_nights", NAMEOF('fact_bookings'[avg_nights]), 3),
+				    ("avg_revenue", NAMEOF('fact_bookings'[avg_revenue]), 1),
+				    ("avg_review_rating", NAMEOF('fact_bookings'[avg_review_rating]), 5),
+				    ("cancellation_rate", NAMEOF('fact_bookings'[cancellation_rate]), 4),
+				    ("total_bookings", NAMEOF('fact_bookings'[total_bookings]), 2),
+				    ("total_revenue", NAMEOF('fact_bookings'[total_revenue]), 0)
 				}
 
-	annotation PBI_Id = 318398b901e245b289fce83ca4d61981
+	annotation PBI_Id = f3722ed3389248689e763f1016cc4f70
 

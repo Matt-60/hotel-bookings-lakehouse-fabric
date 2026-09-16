@@ -23,12 +23,11 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "Avg Review Rating"
+                  "Property": "avg_review_rating"
                 }
               },
-              "queryRef": "fact_bookings.Avg Review Rating",
-              "nativeQueryRef": "Avg Review Rating",
-              "format": "0.0"
+              "queryRef": "fact_bookings.avg_review_rating",
+              "nativeQueryRef": "avg_review_rating"
             }
           ]
         }
@@ -43,7 +42,7 @@
                     "Entity": "fact_bookings"
                   }
                 },
-                "Property": "Avg Review Rating"
+                "Property": "avg_review_rating"
               }
             },
             "direction": "Descending"
@@ -101,26 +100,6 @@
       ]
     },
     "visualContainerObjects": {
-      "title": [
-        {
-          "properties": {
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Avg Review Rating'"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
-                }
-              }
-            }
-          }
-        }
-      ],
       "background": [
         {
           "properties": {
@@ -171,6 +150,19 @@
                       "Percent": 0
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }

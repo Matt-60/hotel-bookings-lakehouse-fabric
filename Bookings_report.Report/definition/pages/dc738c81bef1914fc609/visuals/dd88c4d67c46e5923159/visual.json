@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''fact_bookings''[Total Revenue]'"
+                                "Value": "'''fact_bookings''[total_revenue]'"
                               }
                             }
                           ]
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''fact_bookings''[Total Revenue]'"
+                                      "Value": "'''fact_bookings''[total_revenue]'"
                                     }
                                   }
                                 ]
@@ -140,7 +140,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "Total Revenue"
+                            "0": "total_revenue"
                           }
                         ]
                       }
@@ -225,5 +225,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "dd9982c00825deaebe0e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPIs"
+              }
+            },
+            "Property": "KPIs"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

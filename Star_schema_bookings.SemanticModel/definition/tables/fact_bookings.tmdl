@@ -2,7 +2,8 @@ table fact_bookings
 	lineageTag: fed8f020-10ab-4e69-a5f4-0aef3924ab01
 	sourceLineageTag: [dbo].[fact_bookings]
 
-	measure 'Total Bookings' = COUNTROWS(fact_bookings)
+	measure total_bookings = COUNTROWS(fact_bookings)
+		formatString: 0
 		displayFolder: zz_Measures
 		lineageTag: a407b899-9ed2-48e1-a8d6-896d04288768
 
@@ -12,10 +13,8 @@ table fact_bookings
 
 		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Total Revenue' = SUM(fact_bookings[total_price])
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+	measure total_revenue = SUM(fact_bookings[total_price])
+		formatString: #,0
 		displayFolder: zz_Measures
 		lineageTag: eec95b46-d58d-4cfc-bf29-4c206080d3a8
 
@@ -25,9 +24,8 @@ table fact_bookings
 
 		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
-
-	measure 'Avg Review Rating' = AVERAGE(fact_bookings[review_rating])
+	measure avg_review_rating = AVERAGE(fact_bookings[review_rating])
+		formatString: 0.0
 		displayFolder: zz_Measures
 		lineageTag: 89234f16-5c95-4e7d-986d-3e7d7981e58e
 
@@ -35,9 +33,10 @@ table fact_bookings
 
 		changedProperty = DisplayFolder
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
 
-	measure 'Avg Nights' = AVERAGE(fact_bookings[nights_stayed])
+	measure avg_nights = AVERAGE(fact_bookings[nights_stayed])
+		formatString: 0
 		displayFolder: zz_Measures
 		lineageTag: 0d9c3933-ef01-4e52-9561-087fa8543ce0
 
@@ -45,9 +44,9 @@ table fact_bookings
 
 		changedProperty = DisplayFolder
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
 
-	measure 'Cancellation Rate' =
+	measure cancellation_rate =
 			
 			DIVIDE(
 			    CALCULATE(
@@ -57,6 +56,7 @@ table fact_bookings
 			    COUNTROWS(fact_bookings),
 			    0
 			)
+		formatString: 0%;-0%;0%
 		displayFolder: zz_Measures
 		lineageTag: eaff8eb5-97f9-4aa8-813f-27f71d843add
 
@@ -64,9 +64,10 @@ table fact_bookings
 
 		changedProperty = Name
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
 
-	measure 'Avg Revenue' = AVERAGE(fact_bookings[total_price])
+	measure avg_revenue = AVERAGE(fact_bookings[total_price])
+		formatString: #,0
 		displayFolder: zz_Measures
 		lineageTag: c1ad64c6-84c5-47d0-ba07-a1331e15688c
 
@@ -74,7 +75,7 @@ table fact_bookings
 
 		changedProperty = Name
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
 
 	column booking_id
 		dataType: int64
