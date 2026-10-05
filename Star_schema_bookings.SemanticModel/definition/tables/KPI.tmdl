@@ -1,0 +1,55 @@
+table KPI
+	lineageTag: 5c8b134c-a607-4474-b035-14d80badd5a8
+
+	column KPI
+		lineageTag: fe86310f-85bc-4a08-ac1c-cc6056a96381
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'KPI Order'
+
+		relatedColumnDetails
+			groupByColumn: 'KPI Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'KPI Fields'
+		isHidden
+		lineageTag: c86a84e2-9f35-4ff1-9333-288fba9ea8ba
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'KPI Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'KPI Order'
+		isHidden
+		formatString: 0
+		lineageTag: 3f68b34a-fa5f-4dc6-bc54-84573a913475
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KPI = calculated
+		mode: import
+		source =
+				{
+				    ("ADR", NAMEOF('fact_stay_nights'[ADR]), 0),
+				    ("avg_nights", NAMEOF('fact_stay_nights'[avg_nights]), 1),
+				    ("avg_review_rating", NAMEOF('fact_stay_nights'[avg_review_rating]), 2),
+				    ("cancellation_rate", NAMEOF('fact_stay_nights'[cancellation_rate]), 3),
+				    ("occupancy", NAMEOF('fact_stay_nights'[occupancy]), 4),
+				    ("RevPAR", NAMEOF('fact_stay_nights'[RevPAR]), 5),
+				    ("room_nights_sold", NAMEOF('fact_stay_nights'[room_nights_sold]), 6),
+				    ("total_bookings", NAMEOF('fact_stay_nights'[total_bookings]), 7),
+				    ("total_revenue", NAMEOF('fact_stay_nights'[total_revenue]), 8)
+				}
+
+	annotation PBI_Id = 62a493a84fd44ffa8439eb180191927a
+

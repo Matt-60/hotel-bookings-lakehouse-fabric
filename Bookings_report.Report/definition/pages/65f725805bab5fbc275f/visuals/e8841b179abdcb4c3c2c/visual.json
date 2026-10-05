@@ -1,19 +1,19 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "c92442746243e94a2b09",
+  "name": "e8841b179abdcb4c3c2c",
   "position": {
-    "x": 11.922573133459467,
-    "y": 399.40619997089215,
-    "z": 2000,
-    "height": 249.18177848930287,
-    "width": 1254.254693639936,
-    "tabOrder": 2000
+    "x": 671.240867413768,
+    "y": 70.34318148741086,
+    "z": 3000,
+    "height": 317.14044535002182,
+    "width": 594.93639935962744,
+    "tabOrder": 3000
   },
   "visual": {
-    "visualType": "scatterChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
-        "X": {
+        "Category": {
           "projections": [
             {
               "field": {
@@ -23,11 +23,11 @@
                       "Entity": "dim_rooms"
                     }
                   },
-                  "Property": "hotel_rating"
+                  "Property": "hotel_name"
                 }
               },
-              "queryRef": "dim_rooms.hotel_rating",
-              "nativeQueryRef": "hotel_rating",
+              "queryRef": "dim_rooms.hotel_name",
+              "nativeQueryRef": "hotel_name",
               "active": true
             }
           ]
@@ -36,88 +36,52 @@
           "projections": [
             {
               "field": {
-                "Measure": {
+                "Aggregation": {
                   "Expression": {
-                    "SourceRef": {
-                      "Entity": "fact_bookings"
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_rooms"
+                        }
+                      },
+                      "Property": "hotel_rating"
                     }
                   },
-                  "Property": "total_revenue"
+                  "Function": 1
                 }
               },
-              "queryRef": "fact_bookings.total_revenue",
-              "nativeQueryRef": "total_revenue",
-              "displayName": "total_revenue"
-            }
-          ],
-          "fieldParameters": [
-            {
-              "parameterExpr": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "KPIs"
-                    }
-                  },
-                  "Property": "KPIs"
-                }
-              },
-              "index": 0,
-              "length": 1
+              "queryRef": "CountNonNull(dim_rooms.hotel_rating)",
+              "nativeQueryRef": "Average of hotel_rating"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "dim_rooms"
+                      }
+                    },
+                    "Property": "hotel_rating"
+                  }
+                },
+                "Function": 1
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
-      "trend": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "displayName": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Trend line 1'"
-                }
-              }
-            },
-            "transparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "34D"
-                }
-              }
-            },
-            "autoScale": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categoryLabels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categoryAxis": [
+      "valueAxis": [
         {
           "properties": {
             "roundRange": {
@@ -127,24 +91,85 @@
                 }
               }
             },
-            "axisType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Scalar'"
-                }
-              }
-            },
             "start": {
               "expr": {
                 "Literal": {
-                  "Value": "2.4D"
+                  "Value": "2D"
                 }
               }
             },
-            "end": {
+            "invertAxis": {
               "expr": {
                 "Literal": {
-                  "Value": "5.1D"
+                  "Value": "false"
+                }
+              }
+            },
+            "logAxisScale": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "switchAxisPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "enableValueDataLabel": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -196,7 +221,7 @@
             "radius": {
               "expr": {
                 "Literal": {
-                  "Value": "21D"
+                  "Value": "18D"
                 }
               }
             },

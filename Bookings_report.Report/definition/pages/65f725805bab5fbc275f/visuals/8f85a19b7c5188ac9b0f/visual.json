@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "dd88c4d67c46e5923159",
+  "name": "8f85a19b7c5188ac9b0f",
   "position": {
     "x": 11.922573133459467,
     "y": 656.93377965361663,
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "KPIs"
+                      "Entity": "KPI"
                     }
                   },
-                  "Property": "KPIs"
+                  "Property": "KPI"
                 }
               },
-              "queryRef": "KPIs.KPIs",
-              "nativeQueryRef": "KPIs",
+              "queryRef": "KPI.KPI",
+              "nativeQueryRef": "KPI",
               "active": true
             }
           ]
@@ -64,7 +64,7 @@
                 "From": [
                   {
                     "Name": "k",
-                    "Entity": "KPIs",
+                    "Entity": "KPI",
                     "Type": 0
                   }
                 ],
@@ -80,7 +80,7 @@
                                   "Source": "k"
                                 }
                               },
-                              "Property": "KPIs Fields"
+                              "Property": "KPI Fields"
                             }
                           }
                         ],
@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''fact_bookings''[total_revenue]'"
+                                "Value": "'''fact_stay_nights''[total_revenue]'"
                               }
                             }
                           ]
@@ -102,10 +102,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "KPIs"
+                                  "Entity": "KPI"
                                 }
                               },
-                              "Property": "KPIs"
+                              "Property": "KPI"
                             }
                           }
                         ],
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''fact_bookings''[total_revenue]'"
+                                      "Value": "'''fact_stay_nights''[total_revenue]'"
                                     }
                                   }
                                 ]
@@ -129,10 +129,10 @@
                                 "Column": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "KPIs"
+                                      "Entity": "KPI"
                                     }
                                   },
-                                  "Property": "KPIs Fields"
+                                  "Property": "KPI Fields"
                                 }
                               }
                             }

@@ -23,24 +23,24 @@
       "queryName": "silver_bookings",
       "loadEnabled": false
     },
-    "silver silver_guests": {
+    "silver_guests": {
       "queryId": "b7642615-6528-4ffe-8685-5c8e56ead42e",
-      "queryName": "silver silver_guests",
+      "queryName": "silver_guests",
       "loadEnabled": false
     },
-    "silver silver_hotels": {
+    "silver_hotels": {
       "queryId": "9bb53b43-6b27-4ab8-8089-bc63de81b87e",
-      "queryName": "silver silver_hotels",
+      "queryName": "silver_hotels",
       "loadEnabled": false
     },
-    "silver silver_reviews": {
+    "silver_reviews": {
       "queryId": "f9427e9b-f388-4bcc-9124-81b7cc227211",
-      "queryName": "silver silver_reviews",
+      "queryName": "silver_reviews",
       "loadEnabled": false
     },
-    "silver silver_rooms": {
+    "silver_rooms": {
       "queryId": "cfa7d671-e73c-4df4-91a2-4dab75e9f32a",
-      "queryName": "silver silver_rooms",
+      "queryName": "silver_rooms",
       "loadEnabled": false
     },
     "dim_guests": {
@@ -48,9 +48,9 @@
       "queryName": "dim_guests",
       "loadEnabled": false
     },
-    "fact_bookings": {
+    "fact_bookings(staging)": {
       "queryId": "ca16af9a-a419-45f0-a12f-1c28fefade12",
-      "queryName": "fact_bookings",
+      "queryName": "fact_bookings(staging)",
       "loadEnabled": false
     },
     "dim_rooms": {
@@ -61,6 +61,11 @@
     "silver_reviews_agg": {
       "queryId": "24c0db02-1cbf-4ea5-924f-c6dd9f203a0a",
       "queryName": "silver_reviews_agg",
+      "loadEnabled": false
+    },
+    "fact_stay_nights": {
+      "queryId": "f6207e3a-9631-40fc-be7a-8b614dfdf7e4",
+      "queryName": "fact_stay_nights",
       "loadEnabled": false
     }
   },

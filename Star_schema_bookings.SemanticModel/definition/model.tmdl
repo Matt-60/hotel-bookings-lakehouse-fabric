@@ -10,11 +10,11 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_QueryOrder = ["DirectLake - Gold_hotels_Lh"]
 
-annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","DaxQueryView_Desktop"]
+annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","DaxQueryView_Desktop","TMDLView_Desktop"]
 
 ref table dim_guests
-ref table fact_bookings
 ref table dim_date
-ref table KPIs
 ref table dim_rooms
+ref table fact_stay_nights
+ref table KPI
 

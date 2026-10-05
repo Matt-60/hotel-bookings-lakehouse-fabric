@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "6dfef8485c1756c80449",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "70e6dcf1deeb1822ecbd",
   "position": {
-    "x": 9.5380585067675732,
-    "y": 8.345801193421627,
-    "z": 5000,
+    "x": 0,
+    "y": 0,
+    "z": 4000,
     "height": 56.0360937272595,
-    "width": 1262.6004948333575,
-    "tabOrder": 5000
+    "width": 1280.4843545335468,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "textbox",
@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Bookings analysis",
+                    "value": "Guests & hotel performance analysis",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "18pt"

@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "8c9382d4ffe801aa2171",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "fcbdbf0930d635105705",
   "position": {
-    "x": 9.5380585067675732,
-    "y": 72.727696114102756,
+    "x": 9.57191055545007,
+    "y": 72.9858179853068,
     "z": 1000,
-    "height": 230.10566147576773,
-    "width": 1061.1090088778926,
+    "height": 229.7258533308017,
+    "width": 1270.671126235997,
     "tabOrder": 1000
   },
   "visual": {
@@ -20,43 +20,69 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_bookings"
+                      "Entity": "fact_stay_nights"
+                    }
+                  },
+                  "Property": "RevPAR"
+                }
+              },
+              "queryRef": "fact_stay_nights.RevPAR",
+              "nativeQueryRef": "RevPAR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_stay_nights"
+                    }
+                  },
+                  "Property": "ADR"
+                }
+              },
+              "queryRef": "fact_stay_nights.ADR",
+              "nativeQueryRef": "ADR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_stay_nights"
+                    }
+                  },
+                  "Property": "occupancy"
+                }
+              },
+              "queryRef": "fact_stay_nights.occupancy",
+              "nativeQueryRef": "occupancy"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_stay_nights"
                     }
                   },
                   "Property": "total_revenue"
                 }
               },
-              "queryRef": "fact_bookings.total_revenue",
-              "nativeQueryRef": "total_revenue",
-              "format": "0.0"
+              "queryRef": "fact_stay_nights.total_revenue",
+              "nativeQueryRef": "total_revenue"
             },
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_bookings"
-                    }
-                  },
-                  "Property": "avg_revenue"
-                }
-              },
-              "queryRef": "fact_bookings.avg_revenue",
-              "nativeQueryRef": "avg_revenue",
-              "format": "0.0"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "fact_bookings"
+                      "Entity": "fact_stay_nights"
                     }
                   },
                   "Property": "total_bookings"
                 }
               },
-              "queryRef": "fact_bookings.total_bookings",
+              "queryRef": "fact_stay_nights.total_bookings",
               "nativeQueryRef": "total_bookings"
             },
             {
@@ -64,13 +90,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_bookings"
+                      "Entity": "fact_stay_nights"
                     }
                   },
                   "Property": "avg_nights"
                 }
               },
-              "queryRef": "fact_bookings.avg_nights",
+              "queryRef": "fact_stay_nights.avg_nights",
               "nativeQueryRef": "avg_nights"
             },
             {
@@ -78,13 +104,41 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_bookings"
+                      "Entity": "fact_stay_nights"
+                    }
+                  },
+                  "Property": "room_nights_sold"
+                }
+              },
+              "queryRef": "fact_stay_nights.room_nights_sold",
+              "nativeQueryRef": "room_nights_sold"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_stay_nights"
+                    }
+                  },
+                  "Property": "avg_review_rating"
+                }
+              },
+              "queryRef": "fact_stay_nights.avg_review_rating",
+              "nativeQueryRef": "avg_review_rating"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_stay_nights"
                     }
                   },
                   "Property": "cancellation_rate"
                 }
               },
-              "queryRef": "fact_bookings.cancellation_rate",
+              "queryRef": "fact_stay_nights.cancellation_rate",
               "nativeQueryRef": "cancellation_rate"
             }
           ]
@@ -97,10 +151,10 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "fact_bookings"
+                    "Entity": "fact_stay_nights"
                   }
                 },
-                "Property": "total_revenue"
+                "Property": "RevPAR"
               }
             },
             "direction": "Descending"
@@ -160,7 +214,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "21D"
+                  "Value": "18D"
                 }
               }
             }
@@ -230,7 +284,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "16D"
+                  "Value": "14D"
+                }
+              }
+            },
+            "horizontalAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'left'"
                 }
               }
             }
@@ -274,29 +335,70 @@
           }
         }
       ],
-      "fillCustom": [
+      "layout": [
+        {
+          "properties": {
+            "columnCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "3L"
+                }
+              }
+            },
+            "showFixedSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "calloutSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "50D"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'middle'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "referenceLabelLayout": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'below'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "image": [
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
                   "Value": "false"
-                }
-              }
-            }
-          }
-        },
-        {
-          "properties": {
-            "fillColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 3,
-                      "Percent": 0.4
-                    }
-                  }
                 }
               }
             }

@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "a34e73795a6765b36ecd",
+  "name": "51579622570f17ba62c4",
   "position": {
     "x": 17.883859700189202,
     "y": 653.35700771357881,
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "KPIs"
+                      "Entity": "KPI"
                     }
                   },
-                  "Property": "KPIs"
+                  "Property": "KPI"
                 }
               },
-              "queryRef": "KPIs.KPIs",
-              "nativeQueryRef": "KPIs",
+              "queryRef": "KPI.KPI",
+              "nativeQueryRef": "KPI",
               "active": true
             }
           ]
@@ -64,7 +64,7 @@
                 "From": [
                   {
                     "Name": "k",
-                    "Entity": "KPIs",
+                    "Entity": "KPI",
                     "Type": 0
                   }
                 ],
@@ -80,7 +80,7 @@
                                   "Source": "k"
                                 }
                               },
-                              "Property": "KPIs Fields"
+                              "Property": "KPI Fields"
                             }
                           }
                         ],
@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''fact_bookings''[cancellation_rate]'"
+                                "Value": "'''fact_stay_nights''[RevPAR]'"
                               }
                             }
                           ]
@@ -102,10 +102,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "KPIs"
+                                  "Entity": "KPI"
                                 }
                               },
-                              "Property": "KPIs"
+                              "Property": "KPI"
                             }
                           }
                         ],
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''fact_bookings''[cancellation_rate]'"
+                                      "Value": "'''fact_stay_nights''[RevPAR]'"
                                     }
                                   }
                                 ]
@@ -129,10 +129,10 @@
                                 "Column": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "KPIs"
+                                      "Entity": "KPI"
                                     }
                                   },
-                                  "Property": "KPIs Fields"
+                                  "Property": "KPI Fields"
                                 }
                               }
                             }
@@ -140,7 +140,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "cancellation_rate"
+                            "0": "RevPAR"
                           }
                         ]
                       }
@@ -205,23 +205,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "ce5427664d3a6f782511",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "KPIs"
-              }
-            },
-            "Property": "KPIs"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

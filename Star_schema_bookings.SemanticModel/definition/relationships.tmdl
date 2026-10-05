@@ -1,17 +1,12 @@
-relationship 350e67a7-4656-f215-b562-4e025cf4113e
-	fromColumn: fact_bookings.guest_id
+relationship c58e49a3-f240-2e3f-83f8-3a6868940ccb
+	fromColumn: fact_stay_nights.guest_id
 	toColumn: dim_guests.guest_id
 
-relationship a2f437e9-355e-5276-c967-ba1fd26f5895
-	fromColumn: fact_bookings.check_in
-	toColumn: dim_date.Date
-
-relationship d442eeef-dc35-05c5-6f9a-d820a39f4323
-	isActive: false
-	fromColumn: fact_bookings.check_out
-	toColumn: dim_date.Date
-
-relationship 7b72e4a5-a863-3059-02d2-a23565748b13
-	fromColumn: fact_bookings.room_id
+relationship f422117f-2c28-af3a-0d8f-c8bcfc38091c
+	fromColumn: fact_stay_nights.room_id
 	toColumn: dim_rooms.room_id
+
+relationship ecc61040-a1c3-e9dc-16dc-06197b8f3cec
+	fromColumn: fact_stay_nights.stay_date
+	toColumn: dim_date.Date
 

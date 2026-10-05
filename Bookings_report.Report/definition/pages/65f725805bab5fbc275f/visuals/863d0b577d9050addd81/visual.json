@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "214b68c0278e871647a2",
+  "name": "863d0b577d9050addd81",
   "position": {
-    "x": 649.780235773541,
-    "y": 312.37141609663803,
-    "z": 3000,
-    "height": 332.63979042351912,
-    "width": 617.58928831320043,
-    "tabOrder": 3000
+    "x": 11.922573133459467,
+    "y": 70.34318148741086,
+    "z": 0,
+    "height": 317.14044535002182,
+    "width": 643.81894920681123,
+    "tabOrder": 0
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,62 +20,37 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_date"
+                      "Entity": "dim_guests"
                     }
                   },
-                  "Property": "year"
+                  "Property": "name"
                 }
               },
-              "queryRef": "dim_date.year",
-              "nativeQueryRef": "year",
-              "active": true
+              "queryRef": "dim_guests.name",
+              "nativeQueryRef": "guest_name1",
+              "active": true,
+              "displayName": "guest_name"
             },
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_date"
+                      "Entity": "dim_guests"
                     }
                   },
-                  "Property": "quarter"
+                  "Property": "country"
                 }
               },
-              "queryRef": "dim_date.quarter",
-              "nativeQueryRef": "quarter",
-              "active": true
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_date"
-                    }
-                  },
-                  "Property": "month_name"
-                }
-              },
-              "queryRef": "dim_date.month_name",
-              "nativeQueryRef": "month_name",
-              "active": true
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_date"
-                    }
-                  },
-                  "Property": "day_name"
-                }
-              },
-              "queryRef": "dim_date.day_name",
-              "nativeQueryRef": "day_name",
-              "active": false
+              "queryRef": "dim_guests.country",
+              "nativeQueryRef": "guest_country1",
+              "active": false,
+              "displayName": "guest_country"
             }
           ]
+        },
+        "Series": {
+          "projections": []
         },
         "Y": {
           "projections": [
@@ -84,15 +59,15 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_bookings"
+                      "Entity": "fact_stay_nights"
                     }
                   },
-                  "Property": "cancellation_rate"
+                  "Property": "total_revenue"
                 }
               },
-              "queryRef": "fact_bookings.cancellation_rate",
-              "nativeQueryRef": "cancellation_rate",
-              "displayName": "cancellation_rate"
+              "queryRef": "fact_stay_nights.total_revenue",
+              "nativeQueryRef": "total_revenue",
+              "displayName": "total_revenue"
             }
           ],
           "fieldParameters": [
@@ -101,10 +76,10 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "KPIs"
+                      "Entity": "KPI"
                     }
                   },
-                  "Property": "KPIs"
+                  "Property": "KPI"
                 }
               },
               "index": 0,
@@ -117,31 +92,19 @@
         "sort": [
           {
             "field": {
-              "Column": {
+              "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "dim_date"
+                    "Entity": "fact_stay_nights"
                   }
                 },
-                "Property": "year"
+                "Property": "total_revenue"
               }
             },
-            "direction": "Ascending"
-          },
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_date"
-                  }
-                },
-                "Property": "quarter"
-              }
-            },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
@@ -167,24 +130,22 @@
                 "Aggregation": {
                   "Expression": {
                     "SelectRef": {
-                      "ExpressionName": "fact_bookings.total_revenue"
+                      "ExpressionName": "fact_bookings.avg_nights"
                     }
                   },
                   "Function": 1
                 }
               }
             },
-            "dataLabelShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "dataLabelText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'ValueAndName'"
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 7,
+                      "Percent": 0.2
+                    }
+                  }
                 }
               }
             },
@@ -195,58 +156,43 @@
                 }
               }
             },
-            "dataLabelDecimalPoints": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            },
-            "dataLabelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1000D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "fact_bookings.total_revenue",
-            "id": "4"
-          }
-        },
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "displayName": {
-              "expr": {
-                "Literal": {
-                  "Value": "'avg'"
-                }
-              }
-            },
-            "value": {
-              "expr": {
-                "Aggregation": {
-                  "Expression": {
-                    "SelectRef": {
-                      "ExpressionName": "fact_bookings.total_bookings"
-                    }
-                  },
-                  "Function": 1
-                }
-              }
-            },
             "dataLabelShow": {
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "dataLabelHorizontalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'right'"
+                }
+              }
+            },
+            "dataLabelVerticalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'under'"
+                }
+              }
+            },
+            "dataLabelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             },
@@ -256,128 +202,11 @@
                   "Value": "'ValueAndName'"
                 }
               }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
-                }
-              }
             }
           },
           "selector": {
-            "metadata": "fact_bookings.total_bookings",
-            "id": "5"
-          }
-        },
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "displayName": {
-              "expr": {
-                "Literal": {
-                  "Value": "'avg'"
-                }
-              }
-            },
-            "value": {
-              "expr": {
-                "Aggregation": {
-                  "Expression": {
-                    "SelectRef": {
-                      "ExpressionName": "fact_bookings.avg_review_rating"
-                    }
-                  },
-                  "Function": 1
-                }
-              }
-            },
-            "dataLabelShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "dataLabelText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'ValueAndName'"
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "fact_bookings.avg_review_rating",
-            "id": "6"
-          }
-        },
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "displayName": {
-              "expr": {
-                "Literal": {
-                  "Value": "'avg'"
-                }
-              }
-            },
-            "value": {
-              "expr": {
-                "Aggregation": {
-                  "Expression": {
-                    "SelectRef": {
-                      "ExpressionName": "fact_bookings.cancellation_rate"
-                    }
-                  },
-                  "Function": 1
-                }
-              }
-            },
-            "dataLabelShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "dataLabelText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'ValueAndName'"
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "fact_bookings.cancellation_rate",
-            "id": "7"
+            "metadata": "fact_bookings.avg_nights",
+            "id": "1"
           }
         },
         {
@@ -408,6 +237,32 @@
                 }
               }
             },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 7,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            },
             "dataLabelShow": {
               "expr": {
                 "Literal": {
@@ -422,17 +277,29 @@
                 }
               }
             },
-            "width": {
+            "dataLabelHorizontalPosition": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "'right'"
                 }
               }
             },
-            "dataLabelDisplayUnits": {
+            "dataLabelVerticalPosition": {
               "expr": {
                 "Literal": {
-                  "Value": "1000D"
+                  "Value": "'under'"
+                }
+              }
+            },
+            "dataLabelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
                 }
               }
             },
@@ -442,11 +309,18 @@
                   "Value": "1D"
                 }
               }
+            },
+            "dataLabelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000D"
+                }
+              }
             }
           },
           "selector": {
             "metadata": "fact_bookings.avg_revenue",
-            "id": "8"
+            "id": "2"
           }
         },
         {
@@ -470,10 +344,36 @@
                 "Aggregation": {
                   "Expression": {
                     "SelectRef": {
-                      "ExpressionName": "fact_bookings.avg_nights"
+                      "ExpressionName": "fact_bookings.avg_review_rating"
                     }
                   },
                   "Function": 1
+                }
+              }
+            },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 7,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
                 }
               }
             },
@@ -484,6 +384,20 @@
                 }
               }
             },
+            "dataLabelHorizontalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'right'"
+                }
+              }
+            },
+            "dataLabelVerticalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'under'"
+                }
+              }
+            },
             "dataLabelText": {
               "expr": {
                 "Literal": {
@@ -491,69 +405,222 @@
                 }
               }
             },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
+            "dataLabelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
                 }
               }
             }
           },
           "selector": {
-            "metadata": "fact_bookings.avg_nights",
-            "id": "9"
+            "metadata": "fact_bookings.avg_review_rating",
+            "id": "3"
           }
-        }
-      ],
-      "lineStyles": [
-        {
-          "properties": {
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "labels": [
+        },
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "displayName": {
+              "expr": {
+                "Literal": {
+                  "Value": "'avg'"
+                }
+              }
+            },
+            "value": {
+              "expr": {
+                "Aggregation": {
+                  "Expression": {
+                    "SelectRef": {
+                      "ExpressionName": "fact_bookings.total_bookings"
+                    }
+                  },
+                  "Function": 1
+                }
+              }
+            },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 7,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "dataLabelShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "dataLabelHorizontalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'right'"
+                }
+              }
+            },
+            "dataLabelVerticalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'under'"
+                }
+              }
+            },
+            "dataLabelText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ValueAndName'"
+                }
+              }
+            },
+            "dataLabelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "fact_bookings.total_bookings",
+            "id": "5"
           }
-        }
-      ],
-      "seriesLabels": [
+        },
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
-            }
-          }
-        }
-      ],
-      "zoom": [
-        {
-          "properties": {
-            "show": {
+            },
+            "displayName": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "'avg'"
+                }
+              }
+            },
+            "value": {
+              "expr": {
+                "Aggregation": {
+                  "Expression": {
+                    "SelectRef": {
+                      "ExpressionName": "fact_bookings.total_revenue"
+                    }
+                  },
+                  "Function": 1
+                }
+              }
+            },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 7,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "dataLabelShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "dataLabelHorizontalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'right'"
+                }
+              }
+            },
+            "dataLabelVerticalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'under'"
+                }
+              }
+            },
+            "dataLabelText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ValueAndName'"
+                }
+              }
+            },
+            "dataLabelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "dataLabelDecimalPoints": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "dataLabelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000D"
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "fact_bookings.total_revenue",
+            "id": "6"
           }
         }
       ]
@@ -596,13 +663,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
                 }
               }
             },
