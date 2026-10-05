@@ -4,6 +4,7 @@ table dim_guests
 
 	column guest_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: bc062e10-3428-42a5-bf0b-95b8fec9f659
 		sourceLineageTag: guest_id
@@ -16,19 +17,25 @@ table dim_guests
 
 	column name
 		dataType: string
+		isHidden
 		lineageTag: 142979dd-be3d-4a82-a5f7-a5269cc141fd
 		sourceLineageTag: name
 		summarizeBy: none
 		sourceColumn: name
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column email
 		dataType: string
+		isHidden
 		lineageTag: ad235b68-7c4e-4e5e-a385-22434488907a
 		sourceLineageTag: email
 		summarizeBy: none
 		sourceColumn: email
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

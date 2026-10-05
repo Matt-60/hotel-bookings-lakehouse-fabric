@@ -4,21 +4,27 @@ table dim_rooms
 
 	column room_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 014252a9-997e-47f4-a176-a59e3c45cd7c
 		sourceLineageTag: room_id
 		summarizeBy: none
 		sourceColumn: room_id
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column hotel_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f9f651f4-38bb-4832-8131-638ab7a7cdf6
 		sourceLineageTag: hotel_id
 		summarizeBy: none
 		sourceColumn: hotel_id
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

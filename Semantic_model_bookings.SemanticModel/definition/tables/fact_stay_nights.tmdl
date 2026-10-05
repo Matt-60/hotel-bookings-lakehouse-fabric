@@ -6,13 +6,19 @@ table fact_stay_nights
 			
 			CALCULATE ( SUM ( fact_stay_nights[room_revenue] ),
 			    fact_stay_nights[booking_status] <> "Cancelled" )
-		formatString: 0
+		formatString: " #,0.00"
 		displayFolder: _Measures
 		lineageTag: 940da2aa-2910-439c-999e-fe4b3eb971c1
 
 		changedProperty = Name
 
 		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+		changedProperty = FormatStringDefinition
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	measure room_nights_sold =
 			
@@ -43,6 +49,7 @@ table fact_stay_nights
 			
 			AVERAGEX ( VALUES ( fact_stay_nights[booking_id] ),
 			    CALCULATE ( MAX ( fact_stay_nights[nights_stayed] ) ) )
+		formatString: " 0.0"
 		displayFolder: _Measures
 		lineageTag: f179b966-c94c-4739-9c90-9ad1634f3d07
 
@@ -50,12 +57,15 @@ table fact_stay_nights
 
 		changedProperty = Name
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	measure avg_review_rating =
 			
 			AVERAGEX ( VALUES ( fact_stay_nights[booking_id] ),
 			    CALCULATE ( MAX ( fact_stay_nights[review_rating] ) ) )
+		formatString: " 0.0"
 		displayFolder: _Measures
 		lineageTag: 146349a1-0477-4add-b2e1-ab5ede2de722
 
@@ -63,7 +73,9 @@ table fact_stay_nights
 
 		changedProperty = Name
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	measure cancellation_rate =
 			
@@ -83,6 +95,7 @@ table fact_stay_nights
 		changedProperty = FormatString
 
 	measure ADR = DIVIDE ( [total_revenue], [room_nights_sold] )
+		formatString: " #,0.00"
 		displayFolder: _Measures
 		lineageTag: 4ea5929c-efad-4bf7-bdc6-8f6d997a79c0
 
@@ -90,7 +103,11 @@ table fact_stay_nights
 
 		changedProperty = Name
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
+
+		changedProperty = FormatStringDefinition
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	measure occupancy =
 			
@@ -106,6 +123,7 @@ table fact_stay_nights
 		changedProperty = FormatString
 
 	measure RevPAR = DIVIDE ( [total_revenue], COUNTROWS ( dim_rooms ) * COUNTROWS ( dim_date ) )
+		formatString: " #,0.00"
 		displayFolder: _Measures
 		lineageTag: 50832b2a-449a-4752-a376-f8fd339bd9d1
 
@@ -113,7 +131,9 @@ table fact_stay_nights
 
 		changedProperty = Name
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	column booking_id
 		dataType: int64
@@ -127,21 +147,27 @@ table fact_stay_nights
 
 	column guest_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 058bb4d4-8e80-43ed-95db-f93b75085e3b
 		sourceLineageTag: guest_id
 		summarizeBy: none
 		sourceColumn: guest_id
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column room_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 1a870158-ed28-42fa-b2db-3f71886e2d4b
 		sourceLineageTag: room_id
 		summarizeBy: none
 		sourceColumn: room_id
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -167,32 +193,47 @@ table fact_stay_nights
 
 	column nights_stayed
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a166b943-e272-4e99-b117-074cf4eb05b8
 		sourceLineageTag: nights_stayed
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: nights_stayed
 
-		annotation SummarizationSetBy = Automatic
+		changedProperty = SummarizeBy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
 
 	column room_revenue
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 66bab043-398f-46aa-b800-2705d79ea42c
 		sourceLineageTag: room_revenue
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: room_revenue
 
-		annotation SummarizationSetBy = Automatic
+		changedProperty = SummarizeBy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
 
 	column review_rating
 		dataType: double
+		isHidden
 		lineageTag: 006a058b-7fdf-4873-9746-8e70ba9e443d
 		sourceLineageTag: review_rating
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: review_rating
 
-		annotation SummarizationSetBy = Automatic
+		changedProperty = SummarizeBy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
