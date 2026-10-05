@@ -48,7 +48,7 @@ A booking from 29 Jun to 3 Jul becomes 4 rows (nights of 29 Jun, 30 Jun, 1 Jul, 
 
 ## ⚙️ Orchestration
 
-<img width="1035" height="260" alt="Hotels pipeline" src="https://github.com/user-attachments/assets/12ab793e-4865-4743-ad1a-ab83aac396a2" />
+<img width="783" height="122" alt="image" src="https://github.com/user-attachments/assets/17303498-d97d-466c-b3a7-f9b165b713fc" />
 
 A single **metadata-driven Data Pipeline** handles ingestion instead of one hardcoded Copy Data activity per file:
 
