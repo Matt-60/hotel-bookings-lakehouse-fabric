@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "Dataflow",
-    "displayName": "Bronze_to_silver"
+    "displayName": "HB Gold Star Schema"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "db2f0d6f-60cf-883e-4c20-a218ce1cc591"
+    "logicalId": "17ea4294-c3b9-aa47-4536-95f8c034a740"
   }
 }

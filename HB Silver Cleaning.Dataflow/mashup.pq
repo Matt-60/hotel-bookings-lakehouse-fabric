@@ -70,7 +70,7 @@ in
 shared DefaultDestination = let
   Source = Lakehouse.Contents([CreateNavigationProperties = false, EnableFolding = false, HierarchicalNavigation = true, EnableVorder = true, OutputMetadataRefresh = true]),
   #"Navigation 1" = Source{[workspaceId = "ea2d8afd-031d-4660-b557-4daa26dc7cad"]}[Data],
-  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1604b554-d8b5-41da-9253-b8626d725ff0"]}[Data],
+  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1c761ff9-684e-419c-8ad1-5216c5647b75"]}[Data],
   #"Navigation 3" = #"Navigation 2"{[Id = "silver", ItemKind = "Schema"]}[Data]
 in
   #"Navigation 3";

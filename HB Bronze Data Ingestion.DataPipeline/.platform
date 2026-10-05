@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "DataPipeline",
-    "displayName": "Hotels_pipeline"
+    "displayName": "HB Bronze Data Ingestion"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "f820cb1f-53a9-a894-4c77-562a1d62c2ef"
+    "logicalId": "c1fa7491-1fb7-aee1-4702-b7bbd9fcde5f"
   }
 }

@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
-    "type": "SemanticModel",
-    "displayName": "Semantic_model_bookings"
+    "type": "Lakehouse",
+    "displayName": "HB_Data_Product"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "d6bbfaa0-3c2e-98f2-4583-60392c955d73"
+    "logicalId": "c5647b75-5216-8ad1-419c-684e1c761ff9"
   }
 }

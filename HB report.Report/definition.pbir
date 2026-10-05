@@ -3,7 +3,7 @@
   "version": "4.0",
   "datasetReference": {
     "byPath": {
-      "path": "../Semantic_model_bookings.SemanticModel"
+      "path": "../HB Semantic Model.SemanticModel"
     }
   }
 }

@@ -1,6 +1,5 @@
 [DefaultOutputDestinationSettings = [DestinationDefinition = [Kind = "Reference", QueryName = "DefaultDestination", IsNewTarget = true], UpdateMethod = [Kind = "Replace"], DestinationTypeSettings = [Kind = "Table"]], StagingDefinition = [Kind = "FastCopy"]]
 section Section1;
-shared DefaultDestination = Lakehouse.Contents([EnableFolding = false]){[workspaceId = "ea2d8afd-031d-4660-b557-4daa26dc7cad"]}[Data]{[lakehouseId = "78969ec5-5b1b-44b6-9672-dc432d5eba29"]}[Data];
 [BindToDefaultDestination = true]
 shared dim_date = let
     Fact      = silver_bookings,
@@ -98,3 +97,10 @@ shared fact_stay_nights = let
   Result = Table.RemoveColumns(Renamed, {"total_price"})
 in
   Result;
+shared DefaultDestination = let
+  Source = Lakehouse.Contents([CreateNavigationProperties = false, EnableFolding = false, HierarchicalNavigation = true, EnableVorder = true, OutputMetadataRefresh = true]),
+  #"Navigation 1" = Source{[workspaceId = "ea2d8afd-031d-4660-b557-4daa26dc7cad"]}[Data],
+  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1c761ff9-684e-419c-8ad1-5216c5647b75"]}[Data],
+  #"Navigation 3" = #"Navigation 2"{[Id = "gold", ItemKind = "Schema"]}[Data]
+in
+  #"Navigation 3";
