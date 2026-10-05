@@ -3,7 +3,7 @@
   "version": "4.0",
   "datasetReference": {
     "byPath": {
-      "path": "../Star_schema_bookings.SemanticModel"
+      "path": "../Semantic_model_bookings.SemanticModel"
     }
   }
 }
