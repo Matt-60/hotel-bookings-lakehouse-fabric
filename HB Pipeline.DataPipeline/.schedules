@@ -7,11 +7,11 @@
       "jobType": "Execute",
       "configuration": {
         "type": "Daily",
-        "startDateTime": "2026-07-03T00:00:00",
-        "endDateTime": "2026-07-07T23:59:00",
+        "startDateTime": "2026-10-05T00:00:00",
+        "endDateTime": "9999-12-31T23:59:59.9999999",
         "localTimeZoneId": "Romance Standard Time",
         "times": [
-          "13:10"
+          "12:00"
         ]
       }
     }
