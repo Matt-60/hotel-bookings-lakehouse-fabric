@@ -58,7 +58,7 @@ A single **metadata-driven Data Pipeline** handles ingestion instead of one hard
 4. **Dataflow `bronze_to_silver`** — runs once all Bronze copies succeed, builds the Silver entity tables
 5. **Dataflow `silver_to_gold`** — runs after Silver completes, builds the Gold star schema
 
-The chain is scheduled daily at 13:10 (CET) with on-success dependencies between every step, and the Direct Lake Semantic Model picks up the new Gold data automatically — no manual intervention required end to end.
+The chain can be scheduled daily with on-success dependencies between every step, and the Direct Lake Semantic Model picks up the new Gold data automatically — no manual intervention required end to end.
 
 ## 🔄 Dataflows
 
