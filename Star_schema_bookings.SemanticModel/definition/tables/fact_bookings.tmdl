@@ -48,14 +48,18 @@ table fact_bookings
 
 	measure cancellation_rate =
 			
-			DIVIDE(
-			    CALCULATE(
-			        COUNTROWS(fact_bookings),
-			        KEEPFILTERS(fact_bookings[booking_status] = "cancelled")
-			    ),
-			    COUNTROWS(fact_bookings),
-			    0
-			)
+			VAR _cancelled =
+			    CALCULATE (
+			        COUNTROWS ( fact_bookings ),
+			        fact_bookings[booking_status] = "Cancelled"
+			    )
+			VAR _all =
+			    CALCULATE (
+			        COUNTROWS ( fact_bookings ),
+			        REMOVEFILTERS ( fact_bookings[booking_status] )
+			    )
+			RETURN
+			    DIVIDE ( _cancelled, _all, 0 )
 		formatString: 0%;-0%;0%
 		displayFolder: zz_Measures
 		lineageTag: eaff8eb5-97f9-4aa8-813f-27f71d843add

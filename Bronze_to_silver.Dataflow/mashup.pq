@@ -23,11 +23,9 @@ in
 [BindToDefaultDestination = true]
 shared silver_reviews = let
     Source = bronze_reviews,
-  #"Changed column type" = Table.TransformColumnTypes(Source, {{"review_id", Int64.Type}, {"booking_id", Int64.Type}, {"rating", Int64.Type}, {"comment", type text}}),
-  #"Grouped rows" = Table.Group(#"Changed column type", {"booking_id"}, {{"avg_rating", each List.Average([rating]), type nullable number}}),
-  #"Rounded off" = Table.TransformColumns(#"Grouped rows", {{"avg_rating", each Number.Round(_, 1), type number}})
+  #"Changed column type" = Table.TransformColumnTypes(Source, {{"review_id", Int64.Type}, {"booking_id", Int64.Type}, {"rating", Int64.Type}, {"comment", type text}})
 in
-  #"Rounded off";
+  #"Changed column type";
 [BindToDefaultDestination = true]
 shared silver_rooms = let
     Source = bronze_rooms,

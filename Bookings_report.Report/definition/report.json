@@ -20,40 +20,6 @@
       "type": "SharedResources"
     }
   },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "12e9ac0aa0d145f0b2d9",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_flags"
-              }
-            },
-            "Property": "is_reviewed"
-          }
-        },
-        "type": "Categorical",
-        "howCreated": "User"
-      },
-      {
-        "name": "d7c2c03b7ce12ce42ba7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_flags"
-              }
-            },
-            "Property": "booking_status"
-          }
-        },
-        "type": "Categorical",
-        "howCreated": "User"
-      }
-    ]
-  },
   "objects": {
     "section": [
       {
@@ -74,7 +40,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "false"
+                "Value": "true"
               }
             }
           }

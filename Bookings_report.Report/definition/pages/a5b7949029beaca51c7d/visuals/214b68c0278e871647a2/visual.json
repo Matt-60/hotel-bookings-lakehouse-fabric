@@ -58,7 +58,7 @@
               },
               "queryRef": "dim_date.month_name",
               "nativeQueryRef": "month_name",
-              "active": false
+              "active": true
             },
             {
               "field": {
@@ -87,12 +87,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "avg_review_rating"
+                  "Property": "cancellation_rate"
                 }
               },
-              "queryRef": "fact_bookings.avg_review_rating",
-              "nativeQueryRef": "avg_review_rating",
-              "displayName": "avg_review_rating"
+              "queryRef": "fact_bookings.cancellation_rate",
+              "nativeQueryRef": "cancellation_rate",
+              "displayName": "cancellation_rate"
             }
           ],
           "fieldParameters": [

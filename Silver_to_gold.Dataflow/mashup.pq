@@ -63,9 +63,9 @@ in
   Source;
 [BindToDefaultDestination = true]
 shared fact_bookings = let
-  Source = Table.NestedJoin(silver_bookings, {"booking_id"}, #"silver silver_reviews", {"booking_id"}, "silver silver_reviews", JoinKind.LeftOuter),
-  #"Expanded silver silver_reviews" = Table.ExpandTableColumn(Source, "silver silver_reviews", {"avg_rating"}, {"avg_rating"}),
-  #"Merged queries" = Table.NestedJoin(#"Expanded silver silver_reviews", {"room_id"}, #"silver silver_rooms", {"room_id"}, "silver silver_rooms", JoinKind.LeftOuter),
+  Source = Table.NestedJoin(silver_bookings, {"booking_id"}, silver_reviews_agg, {"booking_id"}, "silver_reviews_agg", JoinKind.LeftOuter),
+  #"Expanded silver_reviews_agg" = Table.ExpandTableColumn(Source, "silver_reviews_agg", {"avg_rating"}, {"avg_rating"}),
+  #"Merged queries" = Table.NestedJoin(#"Expanded silver_reviews_agg", {"room_id"}, #"silver silver_rooms", {"room_id"}, "silver silver_rooms", JoinKind.LeftOuter),
   #"Expanded silver silver_rooms" = Table.ExpandTableColumn(#"Merged queries", "silver silver_rooms", {"hotel_id", "price_per_night"}, {"hotel_id", "price_per_night"}),
   #"Reordered columns" = Table.ReorderColumns(#"Expanded silver silver_rooms", {"booking_id", "guest_id", "room_id", "hotel_id", "check_in", "check_out", "price_per_night", "avg_rating", "status"}),
   #"Added custom" = Table.TransformColumnTypes(Table.AddColumn(#"Reordered columns", "nights_stayed_in", each [check_out] - [check_in]), {{"nights_stayed_in", Int64.Type}}),
@@ -83,3 +83,8 @@ shared dim_rooms = let
   #"Expanded silver silver_hotels" = Table.ExpandTableColumn(#"Merged queries", "silver silver_hotels", {"name", "city", "country", "rating"}, {"hotel_name", "hotel_city", "hotel_country", "hotel_rating"})
 in
   #"Expanded silver silver_hotels";
+shared silver_reviews_agg = let
+  Source = #"silver silver_reviews",
+  #"Grouped rows" = Table.Group(Source, {"booking_id"}, {{"avg_rating", each List.Average([rating]), type nullable number}})
+in
+  #"Grouped rows";

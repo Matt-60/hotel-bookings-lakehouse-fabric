@@ -42,12 +42,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "avg_review_rating"
+                  "Property": "total_revenue"
                 }
               },
-              "queryRef": "fact_bookings.avg_review_rating",
-              "nativeQueryRef": "avg_review_rating",
-              "displayName": "avg_review_rating"
+              "queryRef": "fact_bookings.total_revenue",
+              "nativeQueryRef": "total_revenue",
+              "displayName": "total_revenue"
             }
           ],
           "fieldParameters": [

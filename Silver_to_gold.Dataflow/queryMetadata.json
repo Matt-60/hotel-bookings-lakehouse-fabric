@@ -57,6 +57,11 @@
       "queryId": "768530e3-24c5-47df-948e-979caf407015",
       "queryName": "dim_rooms",
       "loadEnabled": false
+    },
+    "silver_reviews_agg": {
+      "queryId": "24c0db02-1cbf-4ea5-924f-c6dd9f203a0a",
+      "queryName": "silver_reviews_agg",
+      "loadEnabled": false
     }
   },
   "connections": [

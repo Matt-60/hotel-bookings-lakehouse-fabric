@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''fact_bookings''[avg_review_rating]'"
+                                "Value": "'''fact_bookings''[total_revenue]'"
                               }
                             }
                           ]
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''fact_bookings''[avg_review_rating]'"
+                                      "Value": "'''fact_bookings''[total_revenue]'"
                                     }
                                   }
                                 ]
@@ -140,7 +140,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "avg_review_rating"
+                            "0": "total_revenue"
                           }
                         ]
                       }

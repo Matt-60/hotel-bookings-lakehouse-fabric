@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''fact_bookings''[avg_review_rating]'"
+                                "Value": "'''fact_bookings''[cancellation_rate]'"
                               }
                             }
                           ]
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''fact_bookings''[avg_review_rating]'"
+                                      "Value": "'''fact_bookings''[cancellation_rate]'"
                                     }
                                   }
                                 ]
@@ -140,7 +140,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "avg_review_rating"
+                            "0": "cancellation_rate"
                           }
                         ]
                       }
@@ -205,5 +205,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ce5427664d3a6f782511",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPIs"
+              }
+            },
+            "Property": "KPIs"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
