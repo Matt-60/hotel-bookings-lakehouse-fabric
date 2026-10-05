@@ -1,27 +1,23 @@
 table dim_date
-	lineageTag: bec9be80-e1b2-45ed-8490-feb32ca8e2e2
-	sourceLineageTag: [dbo].[dim_date]
-	dataCategory: Time
+	lineageTag: 213b40f3-91cb-49c9-a027-7966b9bd9111
+	sourceLineageTag: [gold].[dim_date]
 
 	column Date
 		dataType: dateTime
-		isKey
-		formatString: Short Date
-		lineageTag: 5a70c736-50fc-4445-9f21-4de7dc34e6f1
+		formatString: General Date
+		lineageTag: cb08a5cb-2e29-4ef6-a51e-707f47cb3530
 		sourceLineageTag: Date
 		summarizeBy: none
 		sourceColumn: Date
-
-		changedProperty = FormatString
 
 		annotation SummarizationSetBy = Automatic
 
 	column year
 		dataType: int64
 		formatString: 0
-		lineageTag: 91e01a5b-311f-4849-ac1e-e77e16142a8a
+		lineageTag: 3e18c1dd-2852-4ae2-948a-466cf25f91c6
 		sourceLineageTag: year
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: year
 
 		annotation SummarizationSetBy = Automatic
@@ -29,75 +25,67 @@ table dim_date
 	column month
 		dataType: int64
 		formatString: 0
-		lineageTag: fdf19eea-252a-4154-a987-ecbe3033046c
+		lineageTag: ef7a9a89-8ae7-44d3-9b91-3ed3936421b8
 		sourceLineageTag: month
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: month
 
 		annotation SummarizationSetBy = Automatic
 
 	column month_name
 		dataType: string
-		lineageTag: 6a6f960b-9831-4a5f-a88b-ec3cbe8cc529
+		lineageTag: f3303cd1-51ec-4b96-9c38-54a02a6f7b69
 		sourceLineageTag: month_name
 		summarizeBy: none
 		sourceColumn: month_name
-		sortByColumn: month
-
-		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
 	column quarter
 		dataType: string
-		lineageTag: a92f0408-d951-4798-888b-039e3143440d
+		lineageTag: 5650b31f-f768-4d5a-8add-b871eaf59c86
 		sourceLineageTag: quarter
 		summarizeBy: none
 		sourceColumn: quarter
-
-		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
 	column day
 		dataType: int64
 		formatString: 0
-		lineageTag: 3640c983-48f5-46a0-995b-22ad43364f27
+		lineageTag: 7f2f704f-ddf8-4f9e-aa29-8e3e7f551dd0
 		sourceLineageTag: day
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: day
 
 		annotation SummarizationSetBy = Automatic
 
 	column day_name
 		dataType: string
-		lineageTag: b07eafbd-8629-4563-968f-53ef0a9af4ad
+		lineageTag: 795ba9db-d751-41b8-90bb-6f1c50b56805
 		sourceLineageTag: day_name
 		summarizeBy: none
 		sourceColumn: day_name
-		sortByColumn: day_of_week
-
-		changedProperty = SortByColumn
-
-		annotation SummarizationSetBy = Automatic
-
-	column is_weekend
-		dataType: boolean
-		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 8c1f8fe8-0cc2-44c7-bf73-d7ceaeb72db7
-		sourceLineageTag: is_weekend
-		summarizeBy: none
-		sourceColumn: is_weekend
 
 		annotation SummarizationSetBy = Automatic
 
 	column day_of_week
 		dataType: int64
 		formatString: 0
-		lineageTag: bedb8a65-201e-4593-aa87-74549d5840a7
+		lineageTag: 8128453b-0443-4d54-8ed3-6a33ed506d34
 		sourceLineageTag: day_of_week
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d18e0a41-8da4-447f-9094-613e6eb0da67
+		sourceLineageTag: is_weekend
+		summarizeBy: none
+		sourceColumn: is_weekend
 
 		annotation SummarizationSetBy = Automatic
 

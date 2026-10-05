@@ -1,49 +1,21 @@
 table fact_stay_nights
-	lineageTag: b7e9970e-e85e-48d9-bfaf-f345722f876d
-	sourceLineageTag: [dbo].[fact_stay_nights]
+	lineageTag: 2c5796ce-828c-4980-8b99-616e69c41735
+	sourceLineageTag: [gold].[fact_stay_nights]
 
-	measure total_revenue =
-			
-			CALCULATE ( SUM ( fact_stay_nights[room_revenue] ),
-			    fact_stay_nights[booking_status] <> "Cancelled" )
+	measure ADR = DIVIDE ( [total_revenue], [room_nights_sold] )
 		formatString: #,0.00
 		displayFolder: _Measures
-		lineageTag: 940da2aa-2910-439c-999e-fe4b3eb971c1
-
-		changedProperty = Name
+		lineageTag: 4ea5929c-efad-4bf7-bdc6-8f6d997a79c0
 
 		changedProperty = DisplayFolder
+
+		changedProperty = Name
 
 		changedProperty = FormatString
 
 		changedProperty = FormatStringDefinition
 
 		annotation PBI_FormatHint = {"isCustom":true}
-
-	measure room_nights_sold =
-			
-			CALCULATE ( COUNTROWS ( fact_stay_nights ),
-			    fact_stay_nights[booking_status] <> "Cancelled" )
-		formatString: 0
-		displayFolder: _Measures
-		lineageTag: 0aaa5b77-6bf5-466f-8c6d-90dbdf82c903
-
-		changedProperty = DisplayFolder
-
-		changedProperty = Name
-
-	measure total_bookings = ```
-			
-			CALCULATE ( COUNTROWS ( fact_stay_nights ), fact_stay_nights[is_first_night] = TRUE () )
-			
-			```
-		formatString: 0
-		displayFolder: _Measures
-		lineageTag: 32ed382c-a244-4c73-9a04-66d89bddb354
-
-		changedProperty = DisplayFolder
-
-		changedProperty = Name
 
 	measure avg_nights =
 			
@@ -94,21 +66,6 @@ table fact_stay_nights
 
 		changedProperty = FormatString
 
-	measure ADR = DIVIDE ( [total_revenue], [room_nights_sold] )
-		formatString: #,0.00
-		displayFolder: _Measures
-		lineageTag: 4ea5929c-efad-4bf7-bdc6-8f6d997a79c0
-
-		changedProperty = DisplayFolder
-
-		changedProperty = Name
-
-		changedProperty = FormatString
-
-		changedProperty = FormatStringDefinition
-
-		annotation PBI_FormatHint = {"isCustom":true}
-
 	measure occupancy =
 			
 			DIVIDE ( [room_nights_sold], COUNTROWS ( dim_rooms ) * COUNTROWS ( dim_date ) )
@@ -135,120 +92,133 @@ table fact_stay_nights
 
 		annotation PBI_FormatHint = {"isCustom":true}
 
+	measure room_nights_sold =
+			
+			CALCULATE ( COUNTROWS ( fact_stay_nights ),
+			    fact_stay_nights[booking_status] <> "Cancelled" )
+		formatString: 0
+		displayFolder: _Measures
+		lineageTag: 0aaa5b77-6bf5-466f-8c6d-90dbdf82c903
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+	measure total_bookings = ```
+			
+			CALCULATE ( COUNTROWS ( fact_stay_nights ), fact_stay_nights[is_first_night] = TRUE () )
+			
+			```
+		formatString: 0
+		displayFolder: _Measures
+		lineageTag: 32ed382c-a244-4c73-9a04-66d89bddb354
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+	measure total_revenue =
+			
+			CALCULATE ( SUM ( fact_stay_nights[room_revenue] ),
+			    fact_stay_nights[booking_status] <> "Cancelled" )
+		formatString: #,0.00
+		displayFolder: _Measures
+		lineageTag: 940da2aa-2910-439c-999e-fe4b3eb971c1
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+		changedProperty = FormatStringDefinition
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
 	column booking_id
 		dataType: int64
-		isHidden
 		formatString: 0
-		lineageTag: fe3e3b97-15c8-44d1-b20d-c4ee06f813b2
+		lineageTag: 627b5687-17a6-408b-b4cd-8af662382bf9
 		sourceLineageTag: booking_id
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: booking_id
 
-		changedProperty = IsHidden
-
-		changedProperty = SummarizeBy
-
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 	column guest_id
 		dataType: int64
-		isHidden
 		formatString: 0
-		lineageTag: 058bb4d4-8e80-43ed-95db-f93b75085e3b
+		lineageTag: e6651645-728d-4ddc-a3ca-f6c3d27e7a77
 		sourceLineageTag: guest_id
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: guest_id
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column room_id
 		dataType: int64
-		isHidden
 		formatString: 0
-		lineageTag: 1a870158-ed28-42fa-b2db-3f71886e2d4b
+		lineageTag: 5cb65176-d3e8-4ede-bf9b-901d07941ab5
 		sourceLineageTag: room_id
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: room_id
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column check_in
 		dataType: dateTime
-		formatString: Short Date
-		lineageTag: 9ea3a35e-b52a-4295-a1d9-8eba7d052dec
+		formatString: General Date
+		lineageTag: 4acea8fd-db4e-4c76-a44d-d96e1d981c7e
 		sourceLineageTag: check_in
 		summarizeBy: none
 		sourceColumn: check_in
-
-		changedProperty = FormatString
 
 		annotation SummarizationSetBy = Automatic
 
 	column check_out
 		dataType: dateTime
-		formatString: Short Date
-		lineageTag: 3c8d23b9-6c44-4ae5-9290-55b8ca95cbf6
+		formatString: General Date
+		lineageTag: a28380c0-91fe-4989-95a8-c25b08b1abd7
 		sourceLineageTag: check_out
 		summarizeBy: none
 		sourceColumn: check_out
-
-		changedProperty = FormatString
 
 		annotation SummarizationSetBy = Automatic
 
 	column nights_stayed
 		dataType: int64
-		isHidden
 		formatString: 0
-		lineageTag: a166b943-e272-4e99-b117-074cf4eb05b8
+		lineageTag: 50b8a05d-a161-4e2a-a7d4-9e65be7f3185
 		sourceLineageTag: nights_stayed
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: nights_stayed
 
-		changedProperty = SummarizeBy
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 	column room_revenue
 		dataType: int64
-		isHidden
 		formatString: 0
-		lineageTag: 66bab043-398f-46aa-b800-2705d79ea42c
+		lineageTag: 1a99f630-f5cc-4a06-819e-bac7d9fdd455
 		sourceLineageTag: room_revenue
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: room_revenue
 
-		changedProperty = SummarizeBy
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 	column review_rating
 		dataType: double
-		isHidden
-		lineageTag: 006a058b-7fdf-4873-9746-8e70ba9e443d
+		lineageTag: a7b109eb-ab43-45d0-acf1-e4461befa7ca
 		sourceLineageTag: review_rating
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: review_rating
 
-		changedProperty = SummarizeBy
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column booking_status
 		dataType: string
-		lineageTag: b7c763d4-49b6-4b79-9f60-4ae0e0ff6288
+		lineageTag: d4ce6f34-a0c1-4193-8bc7-b21e82767ca9
 		sourceLineageTag: booking_status
 		summarizeBy: none
 		sourceColumn: booking_status
@@ -257,20 +227,18 @@ table fact_stay_nights
 
 	column stay_date
 		dataType: dateTime
-		formatString: Short Date
-		lineageTag: 1028a026-ab8c-4e49-a1ec-46b5236a1243
+		formatString: General Date
+		lineageTag: 7e4fbb30-0fdc-44a1-b644-e37df227465f
 		sourceLineageTag: stay_date
 		summarizeBy: none
 		sourceColumn: stay_date
-
-		changedProperty = FormatString
 
 		annotation SummarizationSetBy = Automatic
 
 	column is_first_night
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 92133d12-157b-41f8-89e5-f7bbcd045b94
+		lineageTag: 1c5f63b8-09ff-4df1-8aa3-a2ed4a27c526
 		sourceLineageTag: is_first_night
 		summarizeBy: none
 		sourceColumn: is_first_night

@@ -1,36 +1,30 @@
 table dim_rooms
-	lineageTag: 242d39c5-a194-493c-b49d-76502933feb0
-	sourceLineageTag: [dbo].[dim_rooms]
+	lineageTag: 6166b652-51c6-4a5e-9eba-e8e7f5cc958c
+	sourceLineageTag: [gold].[dim_rooms]
 
 	column room_id
 		dataType: int64
-		isHidden
 		formatString: 0
-		lineageTag: 014252a9-997e-47f4-a176-a59e3c45cd7c
+		lineageTag: 76f50384-6931-48ef-a510-5aebe6518e0c
 		sourceLineageTag: room_id
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: room_id
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column hotel_id
 		dataType: int64
-		isHidden
 		formatString: 0
-		lineageTag: f9f651f4-38bb-4832-8131-638ab7a7cdf6
+		lineageTag: 8e06cb59-a13d-474c-a3fc-7291b9470805
 		sourceLineageTag: hotel_id
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: hotel_id
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column room_type
 		dataType: string
-		lineageTag: 5436ad7a-3823-43c7-9447-59d21ec65842
+		lineageTag: 153173bf-0082-4011-921e-20ffa7f9665e
 		sourceLineageTag: room_type
 		summarizeBy: none
 		sourceColumn: room_type
@@ -40,16 +34,16 @@ table dim_rooms
 	column price_per_night
 		dataType: int64
 		formatString: 0
-		lineageTag: d3cfd286-bf77-45b8-ae63-2cc72f42658d
+		lineageTag: 03c616a1-7e3f-412c-bcc5-b9e8ce6533b5
 		sourceLineageTag: price_per_night
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: price_per_night
 
 		annotation SummarizationSetBy = Automatic
 
 	column is_available
 		dataType: string
-		lineageTag: 45b910f9-1a80-4d7e-b817-d8f77b8a2165
+		lineageTag: df44004f-a3fb-4e3d-a6d4-197e2f0f6d78
 		sourceLineageTag: is_available
 		summarizeBy: none
 		sourceColumn: is_available
@@ -58,7 +52,7 @@ table dim_rooms
 
 	column hotel_name
 		dataType: string
-		lineageTag: b0b9f7bd-fbe5-4d58-8931-b17517882af5
+		lineageTag: 1ba097e3-656f-4d01-80c2-b2bc0f25d4d0
 		sourceLineageTag: hotel_name
 		summarizeBy: none
 		sourceColumn: hotel_name
@@ -67,7 +61,7 @@ table dim_rooms
 
 	column hotel_city
 		dataType: string
-		lineageTag: 39bd6435-a728-4405-91cd-c4e41a3906ce
+		lineageTag: f6d9c3a9-7c58-4586-bbd4-6da761b7196e
 		sourceLineageTag: hotel_city
 		summarizeBy: none
 		sourceColumn: hotel_city
@@ -76,7 +70,7 @@ table dim_rooms
 
 	column hotel_country
 		dataType: string
-		lineageTag: e1c67314-0df8-4454-b722-6ac08790cf88
+		lineageTag: 310d2971-b90a-4d33-8e55-b3be4e5cd67a
 		sourceLineageTag: hotel_country
 		summarizeBy: none
 		sourceColumn: hotel_country
@@ -85,9 +79,9 @@ table dim_rooms
 
 	column hotel_rating
 		dataType: double
-		lineageTag: 4f0a5008-5caa-4c58-a6d6-25d602adbd6a
+		lineageTag: 6b739fd6-30d4-432c-b5eb-57bcd2c6d171
 		sourceLineageTag: hotel_rating
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: hotel_rating
 
 		annotation SummarizationSetBy = Automatic

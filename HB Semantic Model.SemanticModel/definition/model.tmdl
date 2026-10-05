@@ -12,9 +12,9 @@ annotation PBI_QueryOrder = ["DirectLake - HB_Data_Product"]
 
 annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","DaxQueryView_Desktop","TMDLView_Desktop"]
 
-ref table dim_guests
+ref table KPI
 ref table dim_date
+ref table dim_guests
 ref table dim_rooms
 ref table fact_stay_nights
-ref table KPI
 
