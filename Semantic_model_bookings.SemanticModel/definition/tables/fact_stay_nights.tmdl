@@ -232,6 +232,7 @@ table fact_stay_nights
 
 	column review_rating
 		dataType: double
+		isHidden
 		lineageTag: 006a058b-7fdf-4873-9746-8e70ba9e443d
 		sourceLineageTag: review_rating
 		summarizeBy: none
