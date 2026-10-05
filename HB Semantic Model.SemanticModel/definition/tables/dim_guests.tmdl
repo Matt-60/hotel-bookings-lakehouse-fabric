@@ -1,47 +1,58 @@
 table dim_guests
-	lineageTag: e5a3f263-2ea4-4625-bb2a-6c7dc281afb5
+	lineageTag: 136f8f20-b56c-45b6-b787-8d8d80567741
 	sourceLineageTag: [gold].[dim_guests]
 
 	column guest_id
 		dataType: int64
+		isHidden
 		formatString: 0
-		lineageTag: 73f840dc-808d-423f-99a8-4204e5abf91f
+		lineageTag: bc062e10-3428-42a5-bf0b-95b8fec9f659
 		sourceLineageTag: guest_id
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: guest_id
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column name
 		dataType: string
-		lineageTag: ae860461-5e0e-4103-9227-d7c87d00b20e
+		lineageTag: 142979dd-be3d-4a82-a5f7-a5269cc141fd
 		sourceLineageTag: name
 		summarizeBy: none
 		sourceColumn: name
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column email
 		dataType: string
-		lineageTag: dd8dee06-81bc-44e9-8f36-1c2e94f0fe02
+		isHidden
+		lineageTag: ad235b68-7c4e-4e5e-a385-22434488907a
 		sourceLineageTag: email
 		summarizeBy: none
 		sourceColumn: email
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column phone
 		dataType: string
-		lineageTag: 10f74aa7-4bc8-4ed0-a77d-1d8ac6f714d7
+		isHidden
+		lineageTag: ca3d6087-ffb8-4a64-8d97-da427590b198
 		sourceLineageTag: phone
 		summarizeBy: none
 		sourceColumn: phone
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column country
 		dataType: string
-		lineageTag: 214a73dc-1503-411b-a253-b0663d97f40a
+		lineageTag: 81bdc5f7-75d2-4c29-89bc-965ec2b67414
 		sourceLineageTag: country
 		summarizeBy: none
 		sourceColumn: country

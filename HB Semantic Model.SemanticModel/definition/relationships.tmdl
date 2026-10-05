@@ -1,0 +1,12 @@
+relationship c58e49a3-f240-2e3f-83f8-3a6868940ccb
+	fromColumn: fact_stay_nights.guest_id
+	toColumn: dim_guests.guest_id
+
+relationship f422117f-2c28-af3a-0d8f-c8bcfc38091c
+	fromColumn: fact_stay_nights.room_id
+	toColumn: dim_rooms.room_id
+
+relationship ecc61040-a1c3-e9dc-16dc-06197b8f3cec
+	fromColumn: fact_stay_nights.stay_date
+	toColumn: dim_date.Date
+
