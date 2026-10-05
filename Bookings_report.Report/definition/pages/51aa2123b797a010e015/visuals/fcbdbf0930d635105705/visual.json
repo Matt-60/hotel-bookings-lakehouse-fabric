@@ -488,5 +488,135 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9d7f3fcb0404fc28da5d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "RevPAR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1be25dd35d006dd398b8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "ADR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ef9f92e581b05dd7f783",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "occupancy"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f769083fc25dd91ce67d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "total_revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2edb27184d167283d151",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "total_bookings"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "56f43064ef2fe675761e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "avg_nights"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "39d69660293e80acaad5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "room_nights_sold"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f3c4ceec7a4d1256e7ef",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "avg_review_rating"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b18fbb7d06bb19fb8951",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_stay_nights"
+              }
+            },
+            "Property": "cancellation_rate"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
