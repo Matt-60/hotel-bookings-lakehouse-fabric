@@ -281,6 +281,6 @@ table fact_stay_nights
 		mode: directLake
 		source
 			entityName: fact_stay_nights
-			schemaName: dbo
-			expressionSource: 'DirectLake - Gold_hotels_Lh'
+			schemaName: gold
+			expressionSource: 'DirectLake - HB_Data_Product'
 

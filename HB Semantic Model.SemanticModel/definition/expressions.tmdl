@@ -1,6 +1,6 @@
-expression 'DirectLake - Gold_hotels_Lh' =
+expression 'DirectLake - HB_Data_Product' =
 		let
-		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/ea2d8afd-031d-4660-b557-4daa26dc7cad/78969ec5-5b1b-44b6-9672-dc432d5eba29", [HierarchicalNavigation=true])
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/ea2d8afd-031d-4660-b557-4daa26dc7cad/1c761ff9-684e-419c-8ad1-5216c5647b75", [HierarchicalNavigation=true])
 		in
 		    Source
 	lineageTag: 932224c0-a977-49be-b673-6d05dc5d4f10

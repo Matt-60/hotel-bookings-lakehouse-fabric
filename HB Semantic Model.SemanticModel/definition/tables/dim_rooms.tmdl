@@ -98,6 +98,6 @@ table dim_rooms
 		mode: directLake
 		source
 			entityName: dim_rooms
-			schemaName: dbo
-			expressionSource: 'DirectLake - Gold_hotels_Lh'
+			schemaName: gold
+			expressionSource: 'DirectLake - HB_Data_Product'
 

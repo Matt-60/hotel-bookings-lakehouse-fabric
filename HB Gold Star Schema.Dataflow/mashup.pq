@@ -22,35 +22,35 @@ in
 shared silver_bookings = let
   Source = Lakehouse.Contents([HierarchicalNavigation = null, EnableVorder = true, OutputMetadataRefresh = true]),
   #"Navigation 1" = Source{[workspaceId = "ea2d8afd-031d-4660-b557-4daa26dc7cad"]}[Data],
-  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1604b554-d8b5-41da-9253-b8626d725ff0"]}[Data],
+  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1c761ff9-684e-419c-8ad1-5216c5647b75"]}[Data],
   #"Navigation 3" = #"Navigation 2"{[Id = "silver.silver_bookings", ItemKind = "Table"]}[Data]
 in
   #"Navigation 3";
 shared silver_guests = let
   Source = Lakehouse.Contents([HierarchicalNavigation = null, EnableVorder = true, OutputMetadataRefresh = true]),
   #"Navigation 1" = Source{[workspaceId = "ea2d8afd-031d-4660-b557-4daa26dc7cad"]}[Data],
-  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1604b554-d8b5-41da-9253-b8626d725ff0"]}[Data],
+  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1c761ff9-684e-419c-8ad1-5216c5647b75"]}[Data],
   #"Navigation 3" = #"Navigation 2"{[Id = "silver.silver_guests", ItemKind = "Table"]}[Data]
 in
   #"Navigation 3";
 shared silver_hotels = let
   Source = Lakehouse.Contents([HierarchicalNavigation = null, EnableVorder = true, OutputMetadataRefresh = true]),
   #"Navigation 1" = Source{[workspaceId = "ea2d8afd-031d-4660-b557-4daa26dc7cad"]}[Data],
-  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1604b554-d8b5-41da-9253-b8626d725ff0"]}[Data],
+  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1c761ff9-684e-419c-8ad1-5216c5647b75"]}[Data],
   #"Navigation 3" = #"Navigation 2"{[Id = "silver.silver_hotels", ItemKind = "Table"]}[Data]
 in
   #"Navigation 3";
 shared silver_reviews = let
   Source = Lakehouse.Contents([HierarchicalNavigation = null, EnableVorder = true, OutputMetadataRefresh = true]),
   #"Navigation 1" = Source{[workspaceId = "ea2d8afd-031d-4660-b557-4daa26dc7cad"]}[Data],
-  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1604b554-d8b5-41da-9253-b8626d725ff0"]}[Data],
+  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1c761ff9-684e-419c-8ad1-5216c5647b75"]}[Data],
   #"Navigation 3" = #"Navigation 2"{[Id = "silver.silver_reviews", ItemKind = "Table"]}[Data]
 in
   #"Navigation 3";
 shared silver_rooms = let
   Source = Lakehouse.Contents([HierarchicalNavigation = null, EnableVorder = true, OutputMetadataRefresh = true]),
   #"Navigation 1" = Source{[workspaceId = "ea2d8afd-031d-4660-b557-4daa26dc7cad"]}[Data],
-  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1604b554-d8b5-41da-9253-b8626d725ff0"]}[Data],
+  #"Navigation 2" = #"Navigation 1"{[lakehouseId = "1c761ff9-684e-419c-8ad1-5216c5647b75"]}[Data],
   #"Navigation 3" = #"Navigation 2"{[Id = "silver.silver_rooms", ItemKind = "Table"]}[Data]
 in
   #"Navigation 3";
