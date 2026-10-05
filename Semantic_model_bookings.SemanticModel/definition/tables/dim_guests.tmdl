@@ -17,7 +17,6 @@ table dim_guests
 
 	column name
 		dataType: string
-		isHidden
 		lineageTag: 142979dd-be3d-4a82-a5f7-a5269cc141fd
 		sourceLineageTag: name
 		summarizeBy: none
@@ -41,10 +40,13 @@ table dim_guests
 
 	column phone
 		dataType: string
+		isHidden
 		lineageTag: ca3d6087-ffb8-4a64-8d97-da427590b198
 		sourceLineageTag: phone
 		summarizeBy: none
 		sourceColumn: phone
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

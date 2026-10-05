@@ -6,7 +6,7 @@ table fact_stay_nights
 			
 			CALCULATE ( SUM ( fact_stay_nights[room_revenue] ),
 			    fact_stay_nights[booking_status] <> "Cancelled" )
-		formatString: " #,0.00"
+		formatString: #,0.00
 		displayFolder: _Measures
 		lineageTag: 940da2aa-2910-439c-999e-fe4b3eb971c1
 
@@ -49,7 +49,7 @@ table fact_stay_nights
 			
 			AVERAGEX ( VALUES ( fact_stay_nights[booking_id] ),
 			    CALCULATE ( MAX ( fact_stay_nights[nights_stayed] ) ) )
-		formatString: " 0.0"
+		formatString: 0.0
 		displayFolder: _Measures
 		lineageTag: f179b966-c94c-4739-9c90-9ad1634f3d07
 
@@ -65,7 +65,7 @@ table fact_stay_nights
 			
 			AVERAGEX ( VALUES ( fact_stay_nights[booking_id] ),
 			    CALCULATE ( MAX ( fact_stay_nights[review_rating] ) ) )
-		formatString: " 0.0"
+		formatString: 0.0
 		displayFolder: _Measures
 		lineageTag: 146349a1-0477-4add-b2e1-ab5ede2de722
 
@@ -95,7 +95,7 @@ table fact_stay_nights
 		changedProperty = FormatString
 
 	measure ADR = DIVIDE ( [total_revenue], [room_nights_sold] )
-		formatString: " #,0.00"
+		formatString: #,0.00
 		displayFolder: _Measures
 		lineageTag: 4ea5929c-efad-4bf7-bdc6-8f6d997a79c0
 
@@ -123,7 +123,7 @@ table fact_stay_nights
 		changedProperty = FormatString
 
 	measure RevPAR = DIVIDE ( [total_revenue], COUNTROWS ( dim_rooms ) * COUNTROWS ( dim_date ) )
-		formatString: " #,0.00"
+		formatString: #,0.00
 		displayFolder: _Measures
 		lineageTag: 50832b2a-449a-4752-a376-f8fd339bd9d1
 
@@ -137,13 +137,18 @@ table fact_stay_nights
 
 	column booking_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: fe3e3b97-15c8-44d1-b20d-c4ee06f813b2
 		sourceLineageTag: booking_id
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: booking_id
 
-		annotation SummarizationSetBy = Automatic
+		changedProperty = IsHidden
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
 
 	column guest_id
 		dataType: int64
@@ -173,21 +178,25 @@ table fact_stay_nights
 
 	column check_in
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: 9ea3a35e-b52a-4295-a1d9-8eba7d052dec
 		sourceLineageTag: check_in
 		summarizeBy: none
 		sourceColumn: check_in
 
+		changedProperty = FormatString
+
 		annotation SummarizationSetBy = Automatic
 
 	column check_out
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: 3c8d23b9-6c44-4ae5-9290-55b8ca95cbf6
 		sourceLineageTag: check_out
 		summarizeBy: none
 		sourceColumn: check_out
+
+		changedProperty = FormatString
 
 		annotation SummarizationSetBy = Automatic
 
@@ -248,11 +257,13 @@ table fact_stay_nights
 
 	column stay_date
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: 1028a026-ab8c-4e49-a1ec-46b5236a1243
 		sourceLineageTag: stay_date
 		summarizeBy: none
 		sourceColumn: stay_date
+
+		changedProperty = FormatString
 
 		annotation SummarizationSetBy = Automatic
 
