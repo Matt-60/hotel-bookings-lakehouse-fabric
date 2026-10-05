@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "a34e73795a6765b36ecd",
   "position": {
     "x": 17.883859700189202,
@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''fact_bookings''[total_revenue]'"
+                                "Value": "'''fact_bookings''[avg_review_rating]'"
                               }
                             }
                           ]
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''fact_bookings''[total_revenue]'"
+                                      "Value": "'''fact_bookings''[avg_review_rating]'"
                                     }
                                   }
                                 ]
@@ -140,7 +140,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "total_revenue"
+                            "0": "avg_review_rating"
                           }
                         ]
                       }

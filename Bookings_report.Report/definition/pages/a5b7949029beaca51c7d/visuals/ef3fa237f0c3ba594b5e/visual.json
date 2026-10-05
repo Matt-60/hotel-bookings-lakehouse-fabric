@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "ef3fa237f0c3ba594b5e",
   "position": {
     "x": 9.5380585067675732,
@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_hotels"
+                      "Entity": "dim_rooms"
                     }
                   },
                   "Property": "hotel_name"
                 }
               },
-              "queryRef": "dim_hotels.hotel_name",
+              "queryRef": "dim_rooms.hotel_name",
               "nativeQueryRef": "hotel_name",
               "active": true
             },
@@ -35,13 +35,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_hotels"
+                      "Entity": "dim_rooms"
                     }
                   },
                   "Property": "hotel_country"
                 }
               },
-              "queryRef": "dim_hotels.hotel_country",
+              "queryRef": "dim_rooms.hotel_country",
               "nativeQueryRef": "hotel_country",
               "active": false
             },
@@ -50,14 +50,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_hotels"
+                      "Entity": "dim_rooms"
                     }
                   },
                   "Property": "room_type"
                 }
               },
-              "queryRef": "dim_hotels.room_type",
-              "nativeQueryRef": "room_type",
+              "queryRef": "dim_rooms.room_type",
+              "nativeQueryRef": "room_type1",
               "active": false
             }
           ]
@@ -72,12 +72,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "total_revenue"
+                  "Property": "avg_review_rating"
                 }
               },
-              "queryRef": "fact_bookings.total_revenue",
-              "nativeQueryRef": "total_revenue",
-              "displayName": "total_revenue"
+              "queryRef": "fact_bookings.avg_review_rating",
+              "nativeQueryRef": "avg_review_rating",
+              "displayName": "avg_review_rating"
             }
           ],
           "fieldParameters": [
@@ -108,7 +108,7 @@
                     "Entity": "fact_bookings"
                   }
                 },
-                "Property": "total_revenue"
+                "Property": "avg_review_rating"
               }
             },
             "direction": "Descending"
@@ -855,51 +855,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "6572f374bac2cc523954",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_hotels"
-              }
-            },
-            "Property": "hotel_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "0561af96b109062c8bc1",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_hotels"
-              }
-            },
-            "Property": "hotel_country"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "74729eb0000e0bdc6a13",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_hotels"
-              }
-            },
-            "Property": "room_type"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

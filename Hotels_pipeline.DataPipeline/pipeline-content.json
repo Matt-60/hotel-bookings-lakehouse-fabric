@@ -50,6 +50,7 @@
                   "type": "LakehouseTableSink",
                   "tableActionOption": "Upsert",
                   "applyVOrder": false,
+                  "enableTimestampNtz": false,
                   "upsertSettings": {
                     "keys": {
                       "value": "@item().key",

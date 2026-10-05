@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "dfa0e70c81cbce7a621a",
   "position": {
     "x": 671.240867413768,
@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_hotels"
+                      "Entity": "dim_rooms"
                     }
                   },
                   "Property": "hotel_name"
                 }
               },
-              "queryRef": "dim_hotels.hotel_name",
+              "queryRef": "dim_rooms.hotel_name",
               "nativeQueryRef": "hotel_name",
               "active": true
             }
@@ -41,7 +41,7 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "dim_hotels"
+                          "Entity": "dim_rooms"
                         }
                       },
                       "Property": "hotel_rating"
@@ -50,7 +50,7 @@
                   "Function": 1
                 }
               },
-              "queryRef": "CountNonNull(dim_hotels.hotel_rating)",
+              "queryRef": "CountNonNull(dim_rooms.hotel_rating)",
               "nativeQueryRef": "Average of hotel_rating"
             }
           ]
@@ -65,7 +65,7 @@
                   "Column": {
                     "Expression": {
                       "SourceRef": {
-                        "Entity": "dim_hotels"
+                        "Entity": "dim_rooms"
                       }
                     },
                     "Property": "hotel_rating"
@@ -173,169 +173,6 @@
                 }
               }
             }
-          }
-        }
-      ],
-      "referenceLine": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "displayName": {
-              "expr": {
-                "Literal": {
-                  "Value": "'avg'"
-                }
-              }
-            },
-            "value": {
-              "expr": {
-                "Aggregation": {
-                  "Expression": {
-                    "SelectRef": {
-                      "ExpressionName": "CountNonNull(dim_hotels.hotel_rating)"
-                    }
-                  },
-                  "Function": 1
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
-                }
-              }
-            },
-            "dataLabelShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "dataLabelVerticalPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'under'"
-                }
-              }
-            },
-            "dataLabelText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'ValueAndName'"
-                }
-              }
-            },
-            "lineColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 7,
-                      "Percent": 0.2
-                    }
-                  }
-                }
-              }
-            },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'front'"
-                }
-              }
-            },
-            "dataLabelColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 1,
-                      "Percent": 0
-                    }
-                  }
-                }
-              }
-            },
-            "shadeShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "shadeColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 7,
-                      "Percent": 0.6
-                    }
-                  }
-                }
-              }
-            },
-            "shadeColorMatchStroke": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "shadeTransparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "80D"
-                }
-              }
-            },
-            "style": {
-              "expr": {
-                "Literal": {
-                  "Value": "'dashed'"
-                }
-              }
-            },
-            "transparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            },
-            "dataLabelHorizontalPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'right'"
-                }
-              }
-            },
-            "autoScale": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "dataLabelDecimalPoints": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "CountNonNull(dim_hotels.hotel_rating)",
-            "id": "1"
           }
         }
       ]

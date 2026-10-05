@@ -3,6 +3,7 @@
   "schedules": [
     {
       "enabled": false,
+      "enabledControlType": "UserDisabled",
       "jobType": "Execute",
       "configuration": {
         "type": "Daily",

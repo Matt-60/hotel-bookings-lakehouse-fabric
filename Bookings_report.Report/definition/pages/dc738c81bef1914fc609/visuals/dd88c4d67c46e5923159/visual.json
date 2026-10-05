@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "dd88c4d67c46e5923159",
   "position": {
     "x": 11.922573133459467,
@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''fact_bookings''[total_revenue]'"
+                                "Value": "'''fact_bookings''[avg_review_rating]'"
                               }
                             }
                           ]
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''fact_bookings''[total_revenue]'"
+                                      "Value": "'''fact_bookings''[avg_review_rating]'"
                                     }
                                   }
                                 ]
@@ -140,7 +140,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "total_revenue"
+                            "0": "avg_review_rating"
                           }
                         ]
                       }
@@ -225,23 +225,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "dd9982c00825deaebe0e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "KPIs"
-              }
-            },
-            "Property": "KPIs"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

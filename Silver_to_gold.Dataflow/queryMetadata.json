@@ -7,30 +7,6 @@
   "queryGroups": [],
   "documentLocale": "en-US",
   "queriesMetadata": {
-    "Silver_OBT": {
-      "queryId": "9d8d7499-d26b-48db-b2e4-0ce5c4cc4556",
-      "queryName": "Silver_OBT"
-    },
-    "dim_flags": {
-      "queryId": "82be21f4-cbc2-44c1-aa28-9dad01caac64",
-      "queryName": "dim_flags",
-      "loadEnabled": false
-    },
-    "fact_bookings": {
-      "queryId": "85715f65-9312-45a5-82da-4af740b5c23d",
-      "queryName": "fact_bookings",
-      "loadEnabled": false
-    },
-    "dim_hotels": {
-      "queryId": "77e6ad5c-f378-431d-9018-d4399ef9654f",
-      "queryName": "dim_hotels",
-      "loadEnabled": false
-    },
-    "dim_guests": {
-      "queryId": "9ebc8402-469a-44c2-8c4c-4dceea1e8cd3",
-      "queryName": "dim_guests",
-      "loadEnabled": false
-    },
     "DefaultDestination": {
       "queryId": "55eb7e8e-93e8-4bad-9cb2-632ed0a13d11",
       "queryName": "DefaultDestination",
@@ -40,6 +16,46 @@
     "dim_date": {
       "queryId": "d74d7c62-14c7-49a0-af50-483a931d9dc1",
       "queryName": "dim_date",
+      "loadEnabled": false
+    },
+    "silver_bookings": {
+      "queryId": "30980ebf-cc2c-4701-93dd-efda64b58213",
+      "queryName": "silver_bookings",
+      "loadEnabled": false
+    },
+    "silver silver_guests": {
+      "queryId": "b7642615-6528-4ffe-8685-5c8e56ead42e",
+      "queryName": "silver silver_guests",
+      "loadEnabled": false
+    },
+    "silver silver_hotels": {
+      "queryId": "9bb53b43-6b27-4ab8-8089-bc63de81b87e",
+      "queryName": "silver silver_hotels",
+      "loadEnabled": false
+    },
+    "silver silver_reviews": {
+      "queryId": "f9427e9b-f388-4bcc-9124-81b7cc227211",
+      "queryName": "silver silver_reviews",
+      "loadEnabled": false
+    },
+    "silver silver_rooms": {
+      "queryId": "cfa7d671-e73c-4df4-91a2-4dab75e9f32a",
+      "queryName": "silver silver_rooms",
+      "loadEnabled": false
+    },
+    "dim_guests": {
+      "queryId": "9141962a-1c0a-40cf-8f9a-784210e85450",
+      "queryName": "dim_guests",
+      "loadEnabled": false
+    },
+    "fact_bookings": {
+      "queryId": "ca16af9a-a419-45f0-a12f-1c28fefade12",
+      "queryName": "fact_bookings",
+      "loadEnabled": false
+    },
+    "dim_rooms": {
+      "queryId": "768530e3-24c5-47df-948e-979caf407015",
+      "queryName": "dim_rooms",
       "loadEnabled": false
     }
   },

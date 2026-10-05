@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "c92442746243e94a2b09",
   "position": {
     "x": 11.922573133459467,
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_hotels"
+                      "Entity": "dim_rooms"
                     }
                   },
                   "Property": "hotel_rating"
                 }
               },
-              "queryRef": "dim_hotels.hotel_rating",
-              "nativeQueryRef": "hotel_rating1",
+              "queryRef": "dim_rooms.hotel_rating",
+              "nativeQueryRef": "hotel_rating",
               "active": true
             }
           ]
@@ -42,12 +42,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "total_revenue"
+                  "Property": "avg_review_rating"
                 }
               },
-              "queryRef": "fact_bookings.total_revenue",
-              "nativeQueryRef": "total_revenue",
-              "displayName": "total_revenue"
+              "queryRef": "fact_bookings.avg_review_rating",
+              "nativeQueryRef": "avg_review_rating",
+              "displayName": "avg_review_rating"
             }
           ],
           "fieldParameters": [

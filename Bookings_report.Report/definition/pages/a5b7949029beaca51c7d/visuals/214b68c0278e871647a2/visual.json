@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "214b68c0278e871647a2",
   "position": {
     "x": 649.780235773541,
@@ -58,7 +58,7 @@
               },
               "queryRef": "dim_date.month_name",
               "nativeQueryRef": "month_name",
-              "active": true
+              "active": false
             },
             {
               "field": {
@@ -87,12 +87,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "total_revenue"
+                  "Property": "avg_review_rating"
                 }
               },
-              "queryRef": "fact_bookings.total_revenue",
-              "nativeQueryRef": "total_revenue",
-              "displayName": "total_revenue"
+              "queryRef": "fact_bookings.avg_review_rating",
+              "nativeQueryRef": "avg_review_rating",
+              "displayName": "avg_review_rating"
             }
           ],
           "fieldParameters": [
@@ -630,65 +630,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "b11ac193002c82a33a87",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_date"
-              }
-            },
-            "Property": "year"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "54cdda79e8746d2738a5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_date"
-              }
-            },
-            "Property": "quarter"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "023f865fec289d70250a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_date"
-              }
-            },
-            "Property": "month_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "d1aed2d4276bb35b1600",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_date"
-              }
-            },
-            "Property": "day_name"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

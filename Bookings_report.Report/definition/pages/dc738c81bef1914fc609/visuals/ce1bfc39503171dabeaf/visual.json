@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "ce1bfc39503171dabeaf",
   "position": {
     "x": 11.922573133459467,
@@ -23,12 +23,13 @@
                       "Entity": "dim_guests"
                     }
                   },
-                  "Property": "guest_name"
+                  "Property": "name"
                 }
               },
-              "queryRef": "dim_guests.guest_name",
-              "nativeQueryRef": "guest_name",
-              "active": true
+              "queryRef": "dim_guests.name",
+              "nativeQueryRef": "guest_name1",
+              "active": true,
+              "displayName": "guest_name"
             },
             {
               "field": {
@@ -38,12 +39,13 @@
                       "Entity": "dim_guests"
                     }
                   },
-                  "Property": "guest_country"
+                  "Property": "country"
                 }
               },
-              "queryRef": "dim_guests.guest_country",
-              "nativeQueryRef": "guest_country",
-              "active": false
+              "queryRef": "dim_guests.country",
+              "nativeQueryRef": "guest_country1",
+              "active": false,
+              "displayName": "guest_country"
             }
           ]
         },
@@ -57,12 +59,12 @@
                       "Entity": "fact_bookings"
                     }
                   },
-                  "Property": "total_revenue"
+                  "Property": "avg_review_rating"
                 }
               },
-              "queryRef": "fact_bookings.total_revenue",
-              "nativeQueryRef": "total_revenue",
-              "displayName": "total_revenue"
+              "queryRef": "fact_bookings.avg_review_rating",
+              "nativeQueryRef": "avg_review_rating",
+              "displayName": "avg_review_rating"
             }
           ],
           "fieldParameters": [
@@ -93,7 +95,7 @@
                     "Entity": "fact_bookings"
                   }
                 },
-                "Property": "total_revenue"
+                "Property": "avg_review_rating"
               }
             },
             "direction": "Descending"
@@ -785,37 +787,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "bf978fade7897a224934",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_guests"
-              }
-            },
-            "Property": "guest_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "0a799332a07e60935ce7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_guests"
-              }
-            },
-            "Property": "guest_country"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

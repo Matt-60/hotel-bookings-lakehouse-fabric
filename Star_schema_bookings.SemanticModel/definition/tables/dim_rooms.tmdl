@@ -1,0 +1,97 @@
+table dim_rooms
+	lineageTag: 242d39c5-a194-493c-b49d-76502933feb0
+	sourceLineageTag: [dbo].[dim_rooms]
+
+	column room_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 014252a9-997e-47f4-a176-a59e3c45cd7c
+		sourceLineageTag: room_id
+		summarizeBy: none
+		sourceColumn: room_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column hotel_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f9f651f4-38bb-4832-8131-638ab7a7cdf6
+		sourceLineageTag: hotel_id
+		summarizeBy: none
+		sourceColumn: hotel_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column room_type
+		dataType: string
+		lineageTag: 5436ad7a-3823-43c7-9447-59d21ec65842
+		sourceLineageTag: room_type
+		summarizeBy: none
+		sourceColumn: room_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column price_per_night
+		dataType: int64
+		formatString: 0
+		lineageTag: d3cfd286-bf77-45b8-ae63-2cc72f42658d
+		sourceLineageTag: price_per_night
+		summarizeBy: none
+		sourceColumn: price_per_night
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_available
+		dataType: string
+		lineageTag: 45b910f9-1a80-4d7e-b817-d8f77b8a2165
+		sourceLineageTag: is_available
+		summarizeBy: none
+		sourceColumn: is_available
+
+		annotation SummarizationSetBy = Automatic
+
+	column hotel_name
+		dataType: string
+		lineageTag: b0b9f7bd-fbe5-4d58-8931-b17517882af5
+		sourceLineageTag: hotel_name
+		summarizeBy: none
+		sourceColumn: hotel_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column hotel_city
+		dataType: string
+		lineageTag: 39bd6435-a728-4405-91cd-c4e41a3906ce
+		sourceLineageTag: hotel_city
+		summarizeBy: none
+		sourceColumn: hotel_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column hotel_country
+		dataType: string
+		lineageTag: e1c67314-0df8-4454-b722-6ac08790cf88
+		sourceLineageTag: hotel_country
+		summarizeBy: none
+		sourceColumn: hotel_country
+
+		annotation SummarizationSetBy = Automatic
+
+	column hotel_rating
+		dataType: double
+		lineageTag: 4f0a5008-5caa-4c58-a6d6-25d602adbd6a
+		sourceLineageTag: hotel_rating
+		summarizeBy: none
+		sourceColumn: hotel_rating
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_rooms = entity
+		mode: directLake
+		source
+			entityName: dim_rooms
+			schemaName: dbo
+			expressionSource: 'DirectLake - Gold_hotels_Lh'
+

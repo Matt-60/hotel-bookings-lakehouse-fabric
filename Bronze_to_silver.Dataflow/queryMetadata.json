@@ -32,11 +32,6 @@
       "queryName": "silver_rooms",
       "loadEnabled": false
     },
-    "silver_obt": {
-      "queryId": "e66c742b-1fba-45eb-866e-6990a2291a49",
-      "queryName": "silver_obt",
-      "loadEnabled": false
-    },
     "bronze_bookings": {
       "queryId": "ca5e3b46-4608-42e9-b2a3-5ea9bbb1637b",
       "queryName": "bronze_bookings",
@@ -62,9 +57,9 @@
       "queryName": "bronze_rooms",
       "loadEnabled": false
     },
-    "silver_obt_DataDestination": {
-      "queryId": "8e22ac78-aeeb-4842-9a6d-e5948d80b3d5",
-      "queryName": "silver_obt_DataDestination",
+    "DefaultDestination": {
+      "queryId": "1bb5fee8-20f1-486f-9429-ce7f4c03e615",
+      "queryName": "DefaultDestination",
       "isHidden": true,
       "loadEnabled": false
     }

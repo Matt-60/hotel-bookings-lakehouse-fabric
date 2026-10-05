@@ -7,3 +7,5 @@ expression 'DirectLake - Gold_hotels_Lh' =
 
 	annotation PBI_IncludeFutureArtifacts = False
 
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[dim_hotels]"}},"objectType":"Table"}]
+

@@ -12,10 +12,9 @@ annotation PBI_QueryOrder = ["DirectLake - Gold_hotels_Lh"]
 
 annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","DaxQueryView_Desktop"]
 
-ref table dim_flags
 ref table dim_guests
-ref table dim_hotels
 ref table fact_bookings
 ref table dim_date
 ref table KPIs
+ref table dim_rooms
 

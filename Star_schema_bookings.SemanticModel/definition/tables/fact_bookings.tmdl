@@ -51,7 +51,7 @@ table fact_bookings
 			DIVIDE(
 			    CALCULATE(
 			        COUNTROWS(fact_bookings),
-			        KEEPFILTERS(dim_flags[booking_status] = "cancelled")
+			        KEEPFILTERS(fact_bookings[booking_status] = "cancelled")
 			    ),
 			    COUNTROWS(fact_bookings),
 			    0
@@ -104,28 +104,8 @@ table fact_bookings
 		formatString: 0
 		lineageTag: 24cb84de-531d-44f9-944c-3e12f23a07d5
 		sourceLineageTag: room_id
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: room_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column hotel_id
-		dataType: int64
-		formatString: 0
-		lineageTag: 5ce6491c-0f2b-458b-a33f-bdd322b53eae
-		sourceLineageTag: hotel_id
-		summarizeBy: none
-		sourceColumn: hotel_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column flag_id
-		dataType: int64
-		formatString: 0
-		lineageTag: e51f4172-9d82-4d1d-89c6-bd5417aaa625
-		sourceLineageTag: flag_id
-		summarizeBy: none
-		sourceColumn: flag_id
 
 		annotation SummarizationSetBy = Automatic
 
@@ -153,27 +133,6 @@ table fact_bookings
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-	column review_rating
-		dataType: double
-		lineageTag: 8a6e506c-eb84-447c-b08c-ef6efc3b412b
-		sourceLineageTag: review_rating
-		summarizeBy: sum
-		sourceColumn: review_rating
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column nights_stayed
-		dataType: int64
-		formatString: 0
-		lineageTag: 6f336d0a-c497-40dd-b8ad-dd28271857e8
-		sourceLineageTag: nights_stayed
-		summarizeBy: sum
-		sourceColumn: nights_stayed
-
-		annotation SummarizationSetBy = Automatic
-
 	column check_in
 		dataType: dateTime
 		formatString: General Date
@@ -194,23 +153,33 @@ table fact_bookings
 
 		annotation SummarizationSetBy = Automatic
 
-	column silver_processed_date
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 4168f64d-65b4-4e88-bdc2-655cd883267b
-		sourceLineageTag: silver_processed_date
-		summarizeBy: none
-		sourceColumn: silver_processed_date
+	column nights_stayed
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d3cedbb-161e-47b6-9d3a-abf34f3a9867
+		sourceLineageTag: nights_stayed
+		summarizeBy: sum
+		sourceColumn: nights_stayed
 
 		annotation SummarizationSetBy = Automatic
 
-	column gold_processed_date
-		dataType: dateTime
-		formatString: General Date
-		lineageTag: 99acb89a-23c7-42af-b3ed-759b1b718914
-		sourceLineageTag: gold_processed_date
+	column review_rating
+		dataType: double
+		lineageTag: 5e505d94-6ed3-4410-a6b4-13d778eb5ec1
+		sourceLineageTag: review_rating
+		summarizeBy: sum
+		sourceColumn: review_rating
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column booking_status
+		dataType: string
+		lineageTag: eef963cc-439e-4539-83b7-48015ace7a1b
+		sourceLineageTag: booking_status
 		summarizeBy: none
-		sourceColumn: gold_processed_date
+		sourceColumn: booking_status
 
 		annotation SummarizationSetBy = Automatic
 
