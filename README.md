@@ -1,31 +1,50 @@
 # 🏨 Hotel Bookings — End-to-End Data Engineering Project on Microsoft Fabric
 
-A complete end-to-end data engineering project built on **Microsoft Fabric**, implementing Medallion Architecture (Bronze → Silver → Gold) with automated orchestration and Power BI reporting.
+A complete end-to-end data engineering project built on **Microsoft Fabric**, implementing Medallion Architecture (Bronze → Silver → Gold) with automated orchestration, a night-level star schema and Power BI reporting with hotel-industry KPIs (Occupancy, ADR, RevPAR).
 
-`Microsoft Fabric` · `Data Pipelines` · `Dataflow Gen2` · `Data Modeling` · `Star Schema` · `Power BI`
+`Microsoft Fabric` · `Data Pipelines` · `Dataflow Gen2` · `Data Modeling` · `Star Schema` · `Direct Lake` · `Power BI` · `DAX`
 
 ---
 
 ## 🎯 Business Goal
 
-Hotel management needs daily visibility into revenue, occupancy, cancellations, and guest satisfaction across multiple properties — without manually pulling and reconciling data from separate booking, guest, and review systems. This pipeline automates that end-to-end: raw booking data lands, gets cleaned and modeled overnight, and is ready in Power BI every morning with no manual intervention.
+Hotel management needs daily visibility into revenue, occupancy, cancellations, and guest satisfaction across multiple properties — without manually pulling and reconciling data from separate booking, guest, and review systems. This pipeline automates that end-to-end: raw booking data lands, gets cleaned and modeled, and is ready in Power BI with no manual intervention.
 
 ## 🏗️ Architecture
 
 ```
 ADLS Gen2 (CSV Source + JSON Config) → Lookup (JSON config) → ForEach (per CSV) → Copy Data (upsert) → Bronze Lakehouse
-   → Dataflow Gen2 → Silver Lakehouse (OBT)
-   → Dataflow Gen2 → Gold Lakehouse (Star Schema)
+   → Dataflow Gen2 → Silver Lakehouse (cleaned entity tables)
+   → Dataflow Gen2 → Gold Lakehouse (Star Schema, night-level fact)
    → Semantic Model (Direct Lake) → Power BI Report
 ```
 
 | Layer | What happens |
 |---|---|
 | **Bronze** | 5 CSVs (`bookings`, `guests`, `hotels`, `rooms`, `reviews`) ingested from **ADLS Gen2** via a metadata-driven pipeline, upsert strategy, 1:1 with source |
-| **Silver** | All 5 tables joined into one denormalized `Silver_OBT` (grain: 1 row = 1 booking); renamed columns, corrected types, calculated `nights_stayed` & `total_price` |
-| **Gold** | Star schema: `fact_bookings`, `dim_guests`, `dim_hotels` (hotel+room combined), `dim_flags` (junk: status + is_reviewed), `dim_date` |
+| **Silver** | One cleaned table per entity: `silver_bookings`, `silver_guests`, `silver_hotels`, `silver_rooms`, `silver_reviews` — corrected data types, standardized booking status (`checked_out` → `Checked Out`), reviews kept at review grain (with comments) |
+| **Gold** | Star schema: `fact_stay_nights`, `dim_rooms`, `dim_guests`, `dim_date` |
 
-**Lineage:** each record carries `silver_processed_date` and `gold_processed_at` timestamps for traceability.
+### Gold data model
+
+| Table | Grain | Built from | Notes |
+|---|---|---|---|
+| `fact_stay_nights` | **1 row = 1 night of 1 booking** | bookings + rooms + aggregated reviews | `stay_date`, `room_revenue` (nightly rate), `is_first_night`, `booking_status`, `nights_stayed`, `review_rating` |
+| `dim_rooms` | 1 row = 1 room | `silver_rooms` ⟕ `silver_hotels` | Room attributes + hotel attributes (name, city, country, rating) |
+| `dim_guests` | 1 row = 1 guest | `silver_guests` | Email and phone hidden in the semantic model (PII) |
+| `dim_date` | 1 row = 1 day | generated in M | Dynamic range from first check-in to last check-out; weekday sort column |
+
+A booking from 29 Jun to 3 Jul becomes 4 rows (nights of 29 Jun, 30 Jun, 1 Jul, 2 Jul) — revenue is attributed to the night it was earned, so a stay spanning two months is split correctly between them.
+
+## 🧠 Design Decisions
+
+- **Upsert in Bronze instead of append-only.** The classic medallion pattern keeps Bronze append-only and merges in Silver. Here the source CSVs in ADLS Gen2 are persistent and grow daily, so the source itself is the historical archive — any past state can be rebuilt by re-reading the files. Bronze therefore acts as a current-state mirror of the source: upsert on the key column keeps it small and lets Silver/Gold run as simple full refreshes without deduplication logic.
+- **Night-level fact table.** Revenue, occupancy, ADR and RevPAR are defined per room night in the hotel industry. A booking-level fact can only attribute revenue to check-in or check-out date; the night grain gives correct monthly revenue and makes occupancy possible at all.
+- **Booking-level measures on a night-level fact.** Bookings are counted once via `is_first_night` (attributed to arrival date), and averages such as length of stay and review rating are computed per `booking_id` with `AVERAGEX`, so long stays are not over-weighted.
+- **Hotel attributes folded into `dim_rooms`.** Room → hotel is a strict many-to-one hierarchy and every room belongs to a hotel, so a single room dimension keeps the model a clean star without a snowflake or ambiguous filter paths.
+- **Review aggregation in Gold.** Silver keeps individual reviews; the per-booking average is computed in the Gold dataflow as a staging step.
+- **Cancellations excluded from revenue, not from the data.** Revenue measures filter out `Cancelled`, while `cancellation_rate` uses `REMOVEFILTERS` on status, so it stays correct even on report pages filtered to non-cancelled bookings.
+- **Raw fact columns hidden.** `nights_stayed`, `room_revenue`, `review_rating` and keys are hidden with summarization disabled — at night grain a plain `SUM` would multiply values by the number of nights, so users only see measures.
 
 ## ⚙️ Orchestration
 
@@ -36,53 +55,130 @@ A single **metadata-driven Data Pipeline** handles ingestion instead of one hard
 1. **Lookup (`lookup_json_config`)** — reads a JSON config file from **ADLS Gen2**, listing each source file (→ target table name) and its key column
 2. **ForEach (`for_each_csv`)** — iterates over that config and dynamically invokes a **Copy Data** activity per entry — adding a new source file means editing the config, not the pipeline
 3. **Copy Data (upsert)** — writes each table into the **Bronze Lakehouse**, merging records on the key column defined in the config (insert new, update existing)
-4. **Dataflow `bronze_to_silver`** — runs once all Bronze copies succeed, builds the Silver OBT
+4. **Dataflow `bronze_to_silver`** — runs once all Bronze copies succeed, builds the Silver entity tables
 5. **Dataflow `silver_to_gold`** — runs after Silver completes, builds the Gold star schema
 
-The whole chain runs **daily at 13:10 UTC+1** with on-success dependencies between every step, and the Direct Lake Semantic Model refreshes automatically once Gold is updated — no manual intervention required end to end.
+The chain is scheduled daily at 13:10 (CET) with on-success dependencies between every step, and the Direct Lake Semantic Model picks up the new Gold data automatically — no manual intervention required end to end.
+
+## 🔄 Dataflows
+
+### Bronze → Silver (`bronze_to_silver`)
+
+<img width="522" height="384" alt="image" src="https://github.com/user-attachments/assets/27643f24-31a0-453e-a0f4-95ffc505eb5d" />
+
+
+Reads the five Bronze tables and writes one cleaned table per entity to the Silver Lakehouse (`silver` schema): type casting, booking status standardization, reviews kept at review grain.
+
+### Silver → Gold (`silver_to_gold`)
+
+<img width="1074" height="384" alt="image" src="https://github.com/user-attachments/assets/10ad9378-aa39-498f-ac87-9d80f66a83b0" />
+
+
+Builds the star schema: `dim_rooms` (rooms ⟕ hotels), `dim_guests`, a dynamic `dim_date`, and `fact_stay_nights` — a staging booking-level query (bookings + room rate + aggregated review rating) expanded into one row per stay night.
 
 ## 📊 Power BI Report
 
 ### Semantic Model
 
-<img width="800" height="400" alt="semantic model" src="https://github.com/user-attachments/assets/5a17b51b-619b-4839-9621-65493fab1f5b" />
+<img width="849" height="536" alt="image" src="https://github.com/user-attachments/assets/c4372734-0103-4741-963d-ab9b055bd169" />
 
-Direct Lake semantic model built on top of the Gold star schema — no import/refresh needed, reads directly from OneLake.
+Direct Lake semantic model built on top of the Gold star schema — no import refresh needed, reads directly from OneLake.
+
+Relationships (all many-to-one, single direction):
+- `fact_stay_nights[stay_date]` → `dim_date[Date]`
+- `fact_stay_nights[room_id]` → `dim_rooms[room_id]`
+- `fact_stay_nights[guest_id]` → `dim_guests[guest_id]`
 
 ### Report Preview
 
 <details>
 <summary><b>📸 Click to view report screenshots</b></summary>
 
-**Page 1 — Bookings Analysis**
+**Page 1 — Summary**
 
-<img width="1224" height="681" alt="image" src="https://github.com/user-attachments/assets/dbbc4e41-7936-4cf2-b251-6d20d79fcf7b" />
+<img width="1232" height="686" alt="image" src="https://github.com/user-attachments/assets/ce992d37-aaf4-4432-93bb-04c545e58c34" />
 
 **Page 2 — Guests & Hotel Performance**
 
-<img width="1234" height="680" alt="image" src="https://github.com/user-attachments/assets/b3fb86ce-5030-4bb4-8aed-436becf7cf50" />
+<img width="1240" height="697" alt="image" src="https://github.com/user-attachments/assets/64f03bbc-1d5b-413e-b444-b563adac1f4e" />
 
 </details>
 
-- **Page 1 — Bookings Analysis:** KPI cards (Revenue, Bookings, Avg Nights, Cancellation Rate), review rating gauge, revenue by hotel, revenue trend, field-parameter KPI slicer
-- **Page 2 — Guests & Hotel Performance:** bookings by guest, avg rating by hotel, rating-vs-bookings correlation scatter plot
+- **Page 1 — Summary:** KPI cards (Revenue, Room Nights Sold, Bookings, Occupancy, ADR, RevPAR, Avg Length of Stay, Avg Review Rating, Cancellation Rate), KPI trend over time (year → quarter → month → weekday drill-down), KPI by hotel country / hotel / room type, field-parameter KPI slicer
+- **Page 2 — Guests & Hotel Performance:** revenue by guest country and guest, hotel rating vs revenue scatter plot, average rating by hotel
+- Both pages exclude cancelled bookings via a page filter; cancellation rate still reflects all bookings.
+
+### 📐 Hotel KPIs
+
+| KPI | Formula | What it tells you |
+|---|---|---|
+| **Room Nights Sold** | count of non-cancelled stay nights | Volume actually sold |
+| **Occupancy** | room nights sold ÷ (rooms × days) | Share of capacity used |
+| **ADR** (Average Daily Rate) | room revenue ÷ room nights sold | Average price paid per occupied room night |
+| **RevPAR** (Revenue per Available Room) | room revenue ÷ (rooms × days) = ADR × Occupancy | Revenue per room including empty ones — combines price and occupancy |
+| **ALOS** (Avg Length of Stay) | average nights per booking | Longer stays mean lower turnover cost per night |
+| **Cancellation Rate** | cancelled bookings ÷ all bookings (by arrival date) | Demand risk |
 
 <details>
-<summary><b>📐 DAX measures (click to expand)</b></summary>
+<summary><b>DAX measures (click to expand)</b></summary>
 
 ```dax
-Total Revenue = SUM(FactBookings[total_price])
-Avg Revenue = AVERAGE(FactBookings[total_price])
-Total Bookings = COUNTROWS(FactBookings)
-Avg Nights = AVERAGE(FactBookings[nights_stayed])
-Avg Review Rating = AVERAGE(FactBookings[review_rating])
-Cancellation Rate =
-DIVIDE(
-    CALCULATE(COUNTROWS(fact_bookings), KEEPFILTERS(dim_flags[booking_status] = "cancelled")),
-    COUNTROWS(fact_bookings), 0
-)
+total_revenue =
+CALCULATE ( SUM ( fact_stay_nights[room_revenue] ),
+    fact_stay_nights[booking_status] <> "Cancelled" )
+
+room_nights_sold =
+CALCULATE ( COUNTROWS ( fact_stay_nights ),
+    fact_stay_nights[booking_status] <> "Cancelled" )
+
+-- each booking counted once, on its arrival night
+total_bookings =
+CALCULATE ( COUNTROWS ( fact_stay_nights ), fact_stay_nights[is_first_night] = TRUE () )
+
+avg_nights =
+AVERAGEX ( VALUES ( fact_stay_nights[booking_id] ),
+    CALCULATE ( MAX ( fact_stay_nights[nights_stayed] ) ) )
+
+avg_review_rating =
+AVERAGEX ( VALUES ( fact_stay_nights[booking_id] ),
+    CALCULATE ( MAX ( fact_stay_nights[review_rating] ) ) )
+
+cancellation_rate =
+VAR _cancelled =
+    CALCULATE ( [total_bookings], fact_stay_nights[booking_status] = "Cancelled" )
+VAR _all =
+    CALCULATE ( [total_bookings], REMOVEFILTERS ( fact_stay_nights[booking_status] ) )
+RETURN DIVIDE ( _cancelled, _all, 0 )
+
+ADR = DIVIDE ( [total_revenue], [room_nights_sold] )
+
+occupancy =
+DIVIDE ( [room_nights_sold], COUNTROWS ( dim_rooms ) * COUNTROWS ( dim_date ) )
+
+RevPAR =
+DIVIDE ( [total_revenue], COUNTROWS ( dim_rooms ) * COUNTROWS ( dim_date ) )
+```
 
 </details>
+
+## 📈 Scaling Considerations
+
+The architecture (metadata-driven ingestion, medallion layers, star schema on Direct Lake) scales well — a new source is a config entry, and a night-level fact of tens of millions of rows is well within Direct Lake limits. The current *implementation* is sized for a small dataset; at production volume I would change:
+
+1. **Incremental processing instead of daily full reloads.** Every run re-reads the full growing CSVs, merges them into Bronze, and fully replaces Silver and Gold, so runtime and capacity usage grow with total history. Next step: daily partitioned source files or a last-modified watermark in Copy Data, and incremental refresh / merge of changed records only in Silver and Gold.
+2. **Spark notebooks for heavy transformations.** Dataflow Gen2 joins run in the mashup engine without query folding. For large volumes the Silver/Gold logic would move to PySpark notebooks (Delta `MERGE`, partitioning) or Warehouse T-SQL.
+3. **Native aggregations instead of DAX iterators.** `avg_nights` and `avg_review_rating` iterate over every `booking_id` with context transition. At millions of bookings, storing these values only on the `is_first_night` row (null elsewhere) would allow a plain `AVERAGE`, computed natively by the storage engine.
+4. **Environment parameterization.** Workspace and lakehouse IDs are hard-coded in the dataflows; dev/test/prod promotion would use Fabric deployment pipelines with variable libraries.
+5. **Data quality checks and alerting.** Row-count, null-key and orphaned-key checks after each layer, plus a failure notification activity in the pipeline.
+
+## ⚠️ Assumptions & Limitations
+
+- **Synthetic data.** 120 bookings across 100 rooms over ~1 year, so absolute values (e.g. ~1% occupancy) are not realistic — the focus is on correct modeling and KPI definitions.
+- **Flat nightly rate.** Revenue per night equals the room's `price_per_night`; real hotels use variable rates per night (season, weekend).
+- **Full availability assumed.** Capacity counts every room as available every day — `is_available` is a current-state flag with no history, so out-of-order rooms can't be excluded.
+- **Room revenue only.** No F&B, spa or other revenue streams (TRevPAR not covered).
+- **Calendar range.** `dim_date` spans exactly the data range, which keeps occupancy correct but means DAX time-intelligence functions (YTD, YoY) would need a full-year calendar.
+- **Data quality observation.** Some reviews in the source data belong to cancelled or not-yet-completed bookings; on report pages that exclude cancellations these are filtered out automatically.
 
 ---
 
