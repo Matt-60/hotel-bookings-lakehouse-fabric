@@ -1,8 +1,8 @@
 # 🏨 Hotel Bookings — End-to-End Data Engineering Project on Microsoft Fabric
 
-A complete end-to-end data engineering project built on **Microsoft Fabric**, implementing Medallion Architecture (Bronze → Silver → Gold) with automated orchestration, a night-level star schema and Power BI reporting with hotel-industry KPIs (Occupancy, ADR, RevPAR).
+A complete end-to-end data engineering project built on **Microsoft Fabric**, implementing Medallion Architecture (Bronze → Silver → Gold) in a single schema-enabled lakehouse, with automated orchestration, a night-level star schema and Power BI reporting with hotel-industry KPIs (Occupancy, ADR, RevPAR).
 
-`Microsoft Fabric` · `Data Pipelines` · `Dataflow Gen2` · `Data Modeling` · `Star Schema` · `Direct Lake` · `Power BI` · `DAX`
+`Microsoft Fabric` · `Data Pipelines` · `Dataflow Gen2` · `Lakehouse Schemas` · `Data Modeling` · `Star Schema` · `Direct Lake` · `Power BI` · `DAX`
 
 ---
 
@@ -13,17 +13,22 @@ Hotel management needs daily visibility into revenue, occupancy, cancellations, 
 ## 🏗️ Architecture
 
 ```
-ADLS Gen2 (CSV Source + JSON Config) → Lookup (JSON config) → ForEach (per CSV) → Copy Data (upsert) → Bronze Lakehouse
-   → Dataflow Gen2 → Silver Lakehouse (cleaned entity tables)
-   → Dataflow Gen2 → Gold Lakehouse (Star Schema, night-level fact)
-   → Semantic Model (Direct Lake) → Power BI Report
+ADLS Gen2 (CSV Source + JSON Config)
+   → HB Bronze Data Ingestion (Lookup → ForEach → Copy Data, upsert)  → HB_Data_Product.bronze
+   → HB Silver Cleaning (Dataflow Gen2)                                 → HB_Data_Product.silver
+   → HB Gold Star Schema (Dataflow Gen2)                                → HB_Data_Product.gold
+   → HB Semantic Model (Direct Lake) → HB report (Power BI)
+
+Orchestrated end to end by the parent pipeline: HB Pipeline
 ```
 
-| Layer | What happens |
+All three layers live in one lakehouse, **`HB_Data_Product`**, separated by schemas:
+
+| Schema | What happens |
 |---|---|
-| **Bronze** | 5 CSVs (`bookings`, `guests`, `hotels`, `rooms`, `reviews`) ingested from **ADLS Gen2** via a metadata-driven pipeline, upsert strategy, 1:1 with source |
-| **Silver** | One cleaned table per entity: `silver_bookings`, `silver_guests`, `silver_hotels`, `silver_rooms`, `silver_reviews` — corrected data types, standardized booking status (`checked_out` → `Checked Out`), reviews kept at review grain (with comments) |
-| **Gold** | Star schema: `fact_stay_nights`, `dim_rooms`, `dim_guests`, `dim_date` |
+| **`bronze`** | 5 CSVs (`bookings`, `guests`, `hotels`, `rooms`, `reviews`) ingested from **ADLS Gen2** via a metadata-driven pipeline, upsert strategy, 1:1 with source |
+| **`silver`** | One cleaned table per entity: `silver_bookings`, `silver_guests`, `silver_hotels`, `silver_rooms`, `silver_reviews` — corrected data types, standardized booking status (`checked_out` → `Checked Out`), reviews kept at review grain (with comments) |
+| **`gold`** | Star schema: `fact_stay_nights`, `dim_rooms`, `dim_guests`, `dim_date` |
 
 ### Gold data model
 
@@ -38,46 +43,61 @@ A booking from 29 Jun to 3 Jul becomes 4 rows (nights of 29 Jun, 30 Jun, 1 Jul, 
 
 ## 🧠 Design Decisions
 
-- **Upsert in Bronze instead of append-only.** The classic medallion pattern keeps Bronze append-only and merges in Silver. Here the source CSVs in ADLS Gen2 are persistent and grow daily, so the source itself is the historical archive — any past state can be rebuilt by re-reading the files. Bronze therefore acts as a current-state mirror of the source: upsert on the key column keeps it small and lets Silver/Gold run as simple full refreshes without deduplication logic. *Trade-off:* no change history inside the lakehouse, so SCD2 or "status as of date" analysis would require append-only Bronze with a merge step in Silver.
+- **One lakehouse with `bronze` / `silver` / `gold` schemas instead of three lakehouses.** A single schema-enabled lakehouse keeps the workspace small, gives one SQL analytics endpoint for cross-layer queries, and means every dataflow and the semantic model reference a single lakehouse ID.
+- **Upsert in Bronze instead of append-only.** The classic medallion pattern keeps Bronze append-only and merges in Silver. Here the source CSVs in ADLS Gen2 are persistent and grow daily, so the source itself is the historical archive — any past state can be rebuilt by re-reading the files. 
+- **Ingestion split into its own pipeline.** `HB Bronze Data Ingestion` is a child pipeline invoked by the parent `HB Pipeline`, so ingestion can be re-run or tested on its own without refreshing the dataflows.
 - **Night-level fact table.** Revenue, occupancy, ADR and RevPAR are defined per room night in the hotel industry. A booking-level fact can only attribute revenue to check-in or check-out date; the night grain gives correct monthly revenue and makes occupancy possible at all.
 - **Booking-level measures on a night-level fact.** Bookings are counted once via `is_first_night` (attributed to arrival date), and averages such as length of stay and review rating are computed per `booking_id` with `AVERAGEX`, so long stays are not over-weighted.
 - **Hotel attributes folded into `dim_rooms`.** Room → hotel is a strict many-to-one hierarchy and every room belongs to a hotel, so a single room dimension keeps the model a clean star without a snowflake or ambiguous filter paths.
 - **Review aggregation in Gold.** Silver keeps individual reviews; the per-booking average is computed in the Gold dataflow as a staging step.
-- **Cancellations excluded from revenue, not from the data.** Revenue measures filter out `Cancelled`, while `cancellation_rate` uses `REMOVEFILTERS` on status, so it stays correct even on report pages filtered to non-cancelled bookings.
+- **Cancellations excluded from revenue, not from the data.** Revenue measures filter out `Cancelled`, while `cancellation_rate` uses `REMOVEFILTERS` on status, so it stays correct even with a report-level filter on non-cancelled bookings.
 - **Raw fact columns hidden.** `nights_stayed`, `room_revenue`, `review_rating` and keys are hidden with summarization disabled — at night grain a plain `SUM` would multiply values by the number of nights, so users only see measures.
 
 ## ⚙️ Orchestration
 
-<img width="783" height="122" alt="image" src="https://github.com/user-attachments/assets/17303498-d97d-466c-b3a7-f9b165b713fc" />
+**`HB Pipeline`** — the parent pipeline, run end to end with on-success dependencies between every step:
 
-A single **metadata-driven Data Pipeline** handles ingestion instead of one hardcoded Copy Data activity per file:
+<img width="783" height="122" alt="HB Pipeline" src="https://github.com/user-attachments/assets/17303498-d97d-466c-b3a7-f9b165b713fc" />
+
+1. **Bronze Data Ingestion** (Invoke pipeline) — runs the child pipeline `HB Bronze Data Ingestion`
+2. **Silver Cleaning** (Dataflow) — refreshes `HB Silver Cleaning` once ingestion succeeds
+3. **Gold Star Schema** (Dataflow) — refreshes `HB Gold Star Schema` once Silver succeeds
+
+**`HB Bronze Data Ingestion`** — a single **metadata-driven** child pipeline instead of one hardcoded Copy Data activity per file:
 
 1. **Lookup (`lookup_json_config`)** — reads a JSON config file from **ADLS Gen2**, listing each source file (→ target table name) and its key column
 2. **ForEach (`for_each_csv`)** — iterates over that config and dynamically invokes a **Copy Data** activity per entry — adding a new source file means editing the config, not the pipeline
-3. **Copy Data (upsert)** — writes each table into the **Bronze Lakehouse**, merging records on the key column defined in the config (insert new, update existing)
-4. **Dataflow `bronze_to_silver`** — runs once all Bronze copies succeed, builds the Silver entity tables
-5. **Dataflow `silver_to_gold`** — runs after Silver completes, builds the Gold star schema
+3. **Copy Data (upsert)** — writes each table into the `bronze` schema, merging records on the key column defined in the config (insert new, update existing)
 
-The chain can be scheduled daily with on-success dependencies between every step, and the Direct Lake Semantic Model picks up the new Gold data automatically — no manual intervention required end to end.
+<details>
+<summary><b>📸 Click to view the Bronze Data Ingestion pipeline</b></summary>
+
+<br>
+
+<img width="533" height="297" alt="image" src="https://github.com/user-attachments/assets/330da0cc-6a79-4e34-84ac-7b5d6e90443a" />
+
+</details>
+
+The chain can be scheduled daily, and the Direct Lake semantic model picks up the new Gold data automatically — no manual intervention required end to end.
 
 ## 🔄 Dataflows
 
-**Bronze → Silver (`bronze_to_silver`)** — reads the five Bronze tables and writes one cleaned table per entity to the Silver Lakehouse (`silver` schema): type casting, booking status standardization, reviews kept at review grain.
+**`HB Silver Cleaning`** — reads the five tables from the `bronze` schema and writes one cleaned table per entity to the `silver` schema: type casting, booking status standardization, reviews kept at review grain.
 
-**Silver → Gold (`silver_to_gold`)** — builds the star schema: `dim_rooms` (rooms ⟕ hotels), `dim_guests`, a dynamic `dim_date`, and `fact_stay_nights` — a staging booking-level query (bookings + room rate + aggregated review rating) expanded into one row per stay night.
+**`HB Gold Star Schema`** — reads the `silver` schema and builds the star schema in `gold`: `dim_rooms` (rooms ⟕ hotels), `dim_guests`, a dynamic `dim_date`, and `fact_stay_nights` — a staging booking-level query (bookings + room rate + aggregated review rating) expanded into one row per stay night.
 
 <details>
 <summary><b>📸 Click to view dataflow screenshots</b></summary>
 
 <br>
 
-**Bronze → Silver**
+**HB Silver Cleaning**
 
-<img width="522" height="384" alt="bronze_to_silver dataflow" src="https://github.com/user-attachments/assets/27643f24-31a0-453e-a0f4-95ffc505eb5d" />
+<img width="522" height="384" alt="HB Silver Cleaning dataflow" src="https://github.com/user-attachments/assets/27643f24-31a0-453e-a0f4-95ffc505eb5d" />
 
-**Silver → Gold**
+**HB Gold Star Schema**
 
-<img width="1074" height="384" alt="silver_to_gold dataflow" src="https://github.com/user-attachments/assets/10ad9378-aa39-498f-ac87-9d80f66a83b0" />
+<img width="1074" height="384" alt="HB Gold Star Schema dataflow" src="https://github.com/user-attachments/assets/10ad9378-aa39-498f-ac87-9d80f66a83b0" />
 
 </details>
 
@@ -85,9 +105,9 @@ The chain can be scheduled daily with on-success dependencies between every step
 
 ### Semantic Model
 
-<img width="800" height="470" alt="Semantic model" src="https://github.com/user-attachments/assets/c4372734-0103-4741-963d-ab9b055bd169" />
+<img width="800" height="470" alt="HB Semantic Model" src="https://github.com/user-attachments/assets/c4372734-0103-4741-963d-ab9b055bd169" />
 
-Direct Lake semantic model built on top of the Gold star schema — no import refresh needed, reads directly from OneLake.
+`HB Semantic Model` is a Direct Lake model on the `gold` schema of `HB_Data_Product` — no import refresh needed, reads directly from OneLake.
 
 Relationships (all many-to-one, single direction):
 - `fact_stay_nights[stay_date]` → `dim_date[Date]`
@@ -98,7 +118,7 @@ Relationships (all many-to-one, single direction):
 
 - **Page 1 — Summary:** KPI cards (Revenue, Room Nights Sold, Bookings, Occupancy, ADR, RevPAR, Avg Length of Stay, Avg Review Rating, Cancellation Rate), KPI trend over time (year → quarter → month → weekday drill-down), KPI by hotel country / hotel / room type, field-parameter KPI slicer
 - **Page 2 — Guests & Hotel Performance:** revenue by guest country and guest, hotel rating vs revenue scatter plot, average rating by hotel
-- Both pages exclude cancelled bookings via a page filter; cancellation rate still reflects all bookings.
+- Cancelled bookings are excluded via a report-level filter; cancellation rate still reflects all bookings.
 
 <details>
 <summary><b>📸 Click to view report screenshots</b></summary>
@@ -182,8 +202,9 @@ The architecture (metadata-driven ingestion, medallion layers, star schema on Di
 1. **Incremental processing instead of daily full reloads.** Every run re-reads the full growing CSVs, merges them into Bronze, and fully replaces Silver and Gold, so runtime and capacity usage grow with total history. Next step: daily partitioned source files or a last-modified watermark in Copy Data, and incremental refresh / merge of changed records only in Silver and Gold.
 2. **Spark notebooks for heavy transformations.** Dataflow Gen2 joins run in the mashup engine without query folding. For large volumes the Silver/Gold logic would move to PySpark notebooks (Delta `MERGE`, partitioning) or Warehouse T-SQL.
 3. **Native aggregations instead of DAX iterators.** `avg_nights` and `avg_review_rating` iterate over every `booking_id` with context transition. At millions of bookings, storing these values only on the `is_first_night` row (null elsewhere) would allow a plain `AVERAGE`, computed natively by the storage engine.
-4. **Environment parameterization.** Workspace and lakehouse IDs are hard-coded in the dataflows; dev/test/prod promotion would use Fabric deployment pipelines with variable libraries.
+4. **Environment parameterization.** Workspace and lakehouse IDs are hard-coded in the dataflows and the semantic model; dev/test/prod promotion would use Fabric deployment pipelines with variable libraries.
 5. **Data quality checks and alerting.** Row-count, null-key and orphaned-key checks after each layer, plus a failure notification activity in the pipeline.
+6. **Layer isolation.** With more teams consuming the data, Gold could move to its own lakehouse or workspace (shortcuts to the curated tables) for simpler, item-level access control.
 
 </details>
 
@@ -200,7 +221,7 @@ The data is **synthetic** — 120 bookings across 100 rooms over ~1 year — so 
 - **Full availability assumed.** Capacity counts every room as available every day — `is_available` is a current-state flag with no history, so out-of-order rooms can't be excluded.
 - **Room revenue only.** No F&B, spa or other revenue streams (TRevPAR not covered).
 - **Calendar range.** `dim_date` spans exactly the data range, which keeps occupancy correct but means DAX time-intelligence functions (YTD, YoY) would need a full-year calendar.
-- **Data quality observation.** Some reviews in the source data belong to cancelled or not-yet-completed bookings; on report pages that exclude cancellations these are filtered out automatically.
+- **Data quality observation.** Some reviews in the source data belong to cancelled or not-yet-completed bookings; with cancellations filtered out in the report these are excluded automatically.
 
 </details>
 
